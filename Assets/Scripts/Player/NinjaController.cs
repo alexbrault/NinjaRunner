@@ -12,10 +12,17 @@ public class NinjaController : MonoBehaviour {
 	public enum PlayerID : int {
 		Player1 = 0,
 		Player2 = 1,
+		PlayerNone = 2,
 	}
 	
 	public PlayerID player;
-	private int Player;
+	public int Player {
+		get { return (int) player; }
+	}
+	
+	public void SetPlayer(PlayerID pid) {
+		player = pid;
+	}
 	
 	public class KeyID {
 		public const int Left = 0;
@@ -26,7 +33,8 @@ public class NinjaController : MonoBehaviour {
 	
 	public string[,] KeyNames = {
 									{"P1Left", "P1Right", "P1Jump", "P1Shoot"}, 
-									{"P2Left", "P2Right", "P2Jump", "P2Shoot"}
+									{"P2Left", "P2Right", "P2Jump", "P2Shoot"}, 
+									{"null", "null", "null", "null"},
 								};
 	
 	public GameObject Shuriken;
@@ -40,8 +48,6 @@ public class NinjaController : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		Player = (int)player;
-		
 		GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 		
 		foreach(GameObject go in players)
@@ -56,25 +62,25 @@ public class NinjaController : MonoBehaviour {
 		if (canMove) {
 			Run ();
 			
-			if(canJump && Input.GetButtonDown(KeyNames[Player, KeyID.Jump]))
+			if(canJump && InputEx.GetButtonDown(KeyNames[Player, KeyID.Jump]))
 				Jump();
 		}
 		
-		if(onWall && Input.GetButtonDown(KeyNames[Player, KeyID.Jump]))
+		if(onWall && InputEx.GetButtonDown(KeyNames[Player, KeyID.Jump]))
 			WallJump();
 		
-		if(!canJump && canShoot && Input.GetButtonDown(KeyNames[Player, KeyID.Shoot]))
+		if(!canJump && canShoot && InputEx.GetButtonDown(KeyNames[Player, KeyID.Shoot]))
 			StartCoroutine(ShootShurikens());
 	}
 	
 	void Run()
 	{
-		if(Input.GetButton(KeyNames[Player, KeyID.Left]))
+		if(InputEx.GetButton(KeyNames[Player, KeyID.Left]))
 		{
 			gameObject.rigidbody.AddForce(Vector3.left * RunAcceleration * 100);
 		}
 		
-		else if (Input.GetButton(KeyNames[Player, KeyID.Right]))
+		else if (InputEx.GetButton(KeyNames[Player, KeyID.Right]))
 		{
 			gameObject.rigidbody.AddForce(Vector3.right * RunAcceleration * 100);
 		}
