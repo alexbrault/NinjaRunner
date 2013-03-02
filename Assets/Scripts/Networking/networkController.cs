@@ -69,10 +69,10 @@ public class networkController : MonoBehaviour
 				{
 					lastLocalPlayerPosition = localPlayerObject.transform.position;
 					
-					//if(Network.isClient)
-					//{
+					if(Network.isClient)
+					{
 						networkView.RPC("ClientUpdatePlayer",RPCMode.Server,lastLocalPlayerPosition);
-					//}
+					}
 				}
 			}
 		}		
@@ -202,7 +202,6 @@ public class networkController : MonoBehaviour
 			GameObject gop = (GameObject)players[p];
 			gop.transform.position = pos; //GetComponent<NinjaController>().target = pos;
 		}
-		
 	}
 	
  	void OnPlayerConnected(NetworkPlayer p) 
@@ -430,11 +429,13 @@ public class networkController : MonoBehaviour
 			break;
 			
 		case (int)state.playing:
-			GUILayout.Label("FPS Networking Sample");
+			/*GUILayout.Label("FPS Networking Sample");
 			GUILayout.Label("---------------------");
 			GUILayout.Label("WASD keys to move");
 			GUILayout.Label("Hold down mouse button 1");
-			GUILayout.Label("to mouselook, space to jump");
+			GUILayout.Label("to mouselook, space to jump");*/
+			//Debug.Log(localPlayerObject.gameObject);
+			//GUILayout.Label("Score : " + localPlayerObject.gameObject.GetComponent<ScoreGUI>().playerScore);
 			break;	
 		}
 	}	
