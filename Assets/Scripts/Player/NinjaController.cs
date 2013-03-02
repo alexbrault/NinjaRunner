@@ -7,7 +7,7 @@ public class NinjaController : MonoBehaviour {
 	public int WallJumpForce;
 	public int RunAcceleration;
 	public int MaxSpeed;
-	public NetworkPlayer netPlayer;	
+	public NetworkPlayer netPlayer;
 		
 	public enum PlayerID : int {
 		Player1 = 0,
