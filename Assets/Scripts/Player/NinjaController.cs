@@ -5,7 +5,7 @@ public class NinjaController : MonoBehaviour {
 	
 	public int JumpForce;
 	public int WallJumpForce;
-	public int RunAcceleration;
+	public float RunAcceleration;
 	public int MaxSpeed;
 	public NetworkPlayer netPlayer;
 		
@@ -87,7 +87,7 @@ public class NinjaController : MonoBehaviour {
 			facing = +1;
 		}
 		
-		if(gameObject.rigidbody.velocity.magnitude > MaxSpeed)
+		if(Mathf.Abs(gameObject.rigidbody.velocity.x) > MaxSpeed)
 		{
 			Vector3 newVel = new Vector3(0, 0, 0);
 			float velY = gameObject.rigidbody.velocity.y;
@@ -101,7 +101,10 @@ public class NinjaController : MonoBehaviour {
 	
 	void Jump()
 	{
-		gameObject.rigidbody.AddForce(Vector3.up * JumpForce * 100 * jumpsAvailable / 2);
+		float varX = 
+			  (InputEx.GetButton(KeyNames[Player, KeyID.Left]) ? -1 : 0)
+			+ (InputEx.GetButton(KeyNames[Player, KeyID.Right]) ? 1 : 0);
+		gameObject.rigidbody.AddForce(new Vector3(varX, 1, 0) * JumpForce * 100 * jumpsAvailable / 2);
 		canMove = true;
 		jumpsAvailable--;
 	}
@@ -174,7 +177,7 @@ public class NinjaController : MonoBehaviour {
 	
 	IEnumerator FallOffWall()
 	{
-	    yield return new WaitForSeconds(1);
+	    yield return new WaitForSeconds(2);
 		gameObject.rigidbody.useGravity = true;
 		onWall = false;
 	}
