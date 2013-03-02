@@ -29,7 +29,7 @@ public class networkController : MonoBehaviour
 	
 	public NetworkPlayer localPlayer;
 	public GameObject playerPrefab;
-	public float networkUpdateIntervalMax = 0.1F; // maximum of 10 updates per second
+	public float networkUpdateIntervalMax = 0.1F;
 	
 	void Start () 
 	{	
@@ -41,25 +41,6 @@ public class networkController : MonoBehaviour
 	
 	void Update () 
 	{
-		// if I am a client, and it's time to send an update
-		// and if my position has changed, then send an update
-		// to the server
-		
-		/*
-		if(Network.isClient && Time.realtimeSinceStartup > nextNetworkUpdateTime)
-		{
-			nextNetworkUpdateTime = Time.realtimeSinceStartup + networkUpdateIntervalMax;
-			if(localPlayerObject!=null)
-			{
-				if(lastLocalPlayerPosition != localPlayerObject.transform.position)
-				{
-					lastLocalPlayerPosition = localPlayerObject.transform.position;
-					networkView.RPC("ClientUpdatePlayer",RPCMode.Server,lastLocalPlayerPosition);
-			
-				}
-			}
-		}*/
-		
 		if(Time.realtimeSinceStartup > nextNetworkUpdateTime)
 		{
 			nextNetworkUpdateTime = Time.realtimeSinceStartup + networkUpdateIntervalMax;
@@ -105,11 +86,7 @@ public class networkController : MonoBehaviour
 	}
 	
 	void OnConnectedToServer()
-	{
-		// wait until we are fully connected
-		// to the server before making the 
-		// player list request
-	
+	{	
 		networkView.RPC("SendAllPlayers", RPCMode.Server);
 	}
 	
@@ -123,15 +100,6 @@ public class networkController : MonoBehaviour
 			{
 				NetworkPlayer gonp = gop.GetComponent<NinjaController>().netPlayer;
 				NetworkViewID gonvid = gop.GetComponent<NetworkView>().viewID;
-				
-				// only tell the requestor about others
-				
-				// we make this comparison using the
-				// server-assigned index number of the 
-				// player instead of the ipAddress because
-				// more than one player could be playing
-				// under one ipAddress -- ToString()
-				// returns this player index number	
 						
 				if(gonp.ToString() != info.sender.ToString())
 				{
@@ -162,7 +130,6 @@ public class networkController : MonoBehaviour
 	{
 		playerCount++;
 		
-		// allocate a networkViewID for the new player
 		NetworkViewID newViewID = Network.AllocateViewID();
 		
 		Debug.Log("Player " + newViewID.ToString() + " connected from " + ServerAddress + ": 25000");
@@ -182,15 +149,9 @@ public class networkController : MonoBehaviour
 	[RPC]
 	void ClientUpdatePlayer(Vector3 pos, NetworkMessageInfo info)
 	{
-		// a client is sending us a position update
-		// normally you would do a lot of bounds checking here
-		// but for this simple example, we'll just
-		// trust the player (normally wouldn't do this)
 		
 		NetworkPlayer p = info.sender;
 		networkView.RPC("ServerUpdatePlayer",RPCMode.Others, p, pos);
-	
-		// now update it for myself the server
 		
 		ServerUpdatePlayer(p, pos);
 	}
@@ -198,14 +159,10 @@ public class networkController : MonoBehaviour
 	[RPC]
 	void ServerUpdatePlayer(NetworkPlayer p, Vector3 pos)
 	{
-		// the server is telling us to update a player
-		// again, normally you would do a lot of bounds
-		// checking here, but this is just a simple example
-			
 		if(players.ContainsKey(p))
 		{
 			GameObject gop = (GameObject)players[p];
-			gop.transform.position = pos; //GetComponent<NinjaController>().target = pos;
+			gop.transform.position = pos;
 		}
 	}
 	
@@ -215,11 +172,7 @@ public class networkController : MonoBehaviour
 		{
 			playerCount++;
 			
-			// allocate a networkViewID for the new player
-			
 			NetworkViewID newViewID = Network.AllocateViewID();
-			
-			// tell sender, others, and server to create the new player
 			
 			networkView.RPC("JoinPlayer", RPCMode.All, newViewID, Vector3.zero, p);
 				
@@ -231,41 +184,21 @@ public class networkController : MonoBehaviour
 	[RPC]
 	void JoinPlayer(NetworkViewID newPlayerView, Vector3 pos, NetworkPlayer p)
 	{
-		// instantiate the prefab
-		// and set some of its properties
-		
 		GameObject newPlayer = Instantiate(playerPrefab, pos, Quaternion.Euler(new Vector3(270.0f, 0.0f, 0.0f))) as GameObject;
 		newPlayer.GetComponent<NetworkView>().viewID = newPlayerView;
 		newPlayer.tag = "Player";
 		
-		// set the remote player's target to its current location
-		// so that non-moving remote player don't move to the origin
 		newPlayer.GetComponent<NinjaController>().transform.position = pos;
-		
-		// most importantly, populate the NetworkPlayer
-		// structure with the data received from the player
-		// this will allow us to ignore updates from ourself
 		
 		newPlayer.GetComponent<NinjaController>().netPlayer = p;
 		
-		// the local GameObject for any player is unknown to
-		// the server, so it can only send updates for NetworkPlayer
-		// IDs - which we need to translate to a player's local
-		// GameObject representation
-		
-		// to do this, we will add the player to the "players" Hashtable
-		// for fast reverse-lookups for player updates
-		// Hashtable structure is NetworkPlayer --> GameObject
-		
 		players.Add(p,newPlayer);
 		
-		if(p.ipAddress!=LocalAddress)//Network.isClient && p.ipAddress!=LocalAddress) 
+		if(p.ipAddress!=LocalAddress)
 		{
 			Debug.Log("Another player connected: " + newPlayerView.ToString());
-			
-			// because this in not the local player, deactivate the character controller
-			//newPlayer.GetComponent<CharacterController>().enabled = false;
 			newPlayer.GetComponent<NinjaController>().SetPlayer(NinjaController.PlayerID.PlayerNone);
+			Destroy(newPlayer.transform.FindChild("Camera").gameObject);
 		} 
 			
 		else
@@ -282,24 +215,8 @@ public class networkController : MonoBehaviour
 				newPlayer.GetComponent<NinjaController>().SetPlayer(NinjaController.PlayerID.Player1);
 			}
 			
-			// because this is the local player, activate the character controller
-			
-			//newPlayer.GetComponent<CharacterController>().enabled = true;
-			//newPlayer.GetComponent<NinjaController>().isLocalPlayer = true;
-			
-			// also, set the global localPlayerObject as a convenience variable
-			// to easily find the local player GameObject to send position updates
-			
 			localPlayerObject = newPlayer;
-			
-			// also, now put us into the "playing" GameState
-			
 			GameState = (int)state.playing;
-			
-			// and finally, attach the main camera to me
-			
-			//Camera .main.transform.parent = newPlayer.transform;
-			//Camera.main.transform.localPosition = new Vector3(0,1,0);
 		}
 	}
 	
@@ -311,10 +228,7 @@ public class networkController : MonoBehaviour
 			
 			Debug.Log("Player " + player.ToString() + " disconnected.");
 			Debug.Log("There are now " + playerCount + " players.");
-			
-			// we send this to everyone, including to
-			// ourself (the server) to clean-up
-			
+
 			networkView.RPC("DisconnectPlayer", RPCMode.All, player);	
 		}
     }
@@ -327,30 +241,17 @@ public class networkController : MonoBehaviour
 			Debug.Log("Player Disconnected: " + player.ToString());
 		}
 		
-		// now we have to do the reverse lookup from
-		// the NetworkPlayer --> GameObject
-		// this is easy with the Hashtable
-		
 		if(players.ContainsKey(player))
 		{
-			// we check to see if the gameobject exists
-			// or not first just as a safety measure
-			// trying to destory a gameObject that
-			// doesn't exist causes a runtime error
-			
 			if((GameObject)players[player]) 
 			{
 				Destroy((GameObject)players[player]);
 			}
 			
-			// we also have to remove the Hashtable entry
-			
 			players.Remove(player);
 		}
 	}
-		
-	// just GUI from here on out
-	// nothing too interesting :)
+	
  	void OnGUI()
 	{
 		switch (GameState) 
@@ -393,8 +294,6 @@ public class networkController : MonoBehaviour
 			if(GUILayout.Button("Host!"))
 			{
 				StartServer();
-		
-				//Adding server player
 				CreateServerPlayer();				
 			}
 			if(GUILayout.Button("Cancel"))
@@ -432,7 +331,6 @@ public class networkController : MonoBehaviour
 			{
 				Network.Disconnect();
 				Application.Quit();
-				//GameState = (int)state.hostmenu;
 			}
 			break;
 			
