@@ -13,6 +13,7 @@ public class NinjaController : MonoBehaviour {
 		Player1 = 0,
 		Player2 = 1,
 		PlayerNone = 2,
+		NumPlayer
 	}
 	
 	private Segment currentSegment;
@@ -52,6 +53,8 @@ public class NinjaController : MonoBehaviour {
 	void Start () {
 		Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"),LayerMask.NameToLayer("Player"));
 		Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"),LayerMask.NameToLayer("IgnorePlayerCollision"));
+		Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Weapons"),LayerMask.NameToLayer("IgnorePlayerCollision"));
+		Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Weapons"),LayerMask.NameToLayer("Weapons"));
 	}
 	
 	// Update is called once per frame
@@ -123,15 +126,16 @@ public class NinjaController : MonoBehaviour {
 		for(int i = 0; i < 3; i++)
 		{
 			GameObject throwed = (GameObject)GameObject.Instantiate(Shuriken, gameObject.transform.position, Quaternion.Euler(new Vector3(-90, 0, 0)));
+			Shuriken shuriken = throwed.GetComponent<Shuriken>();
+			shuriken.packet = new DamagePacket(1, Player);
 			throwed.rigidbody.AddForce(direction * 1000);
 			
 			Physics.IgnoreCollision(gameObject.collider, throwed.collider, true);
 			
-			for(int j = 0; j < i; j++)
-			{
-				Debug.Log (i);
-				Physics.IgnoreCollision(throwed.collider, shurikens[j].collider, true);
-			}
+//			for(int j = 0; j < i; j++)
+//			{
+//				Physics.IgnoreCollision(throwed.collider, shurikens[j].collider, true);
+//			}
 			
 			shurikens[i] = throwed;
 			yield return new WaitForSeconds(0.1f);

@@ -7,8 +7,11 @@ public class Patrol : MonoBehaviour {
 	
 	private Transform[] patrolPoints;
 	private int directionX;
+	public int maxHealth = 3;
+	private int health;
 	
-	public void StartPatrol(Transform patrol) {		
+	public void StartPatrol(Transform patrol) {	
+		health = maxHealth;
 		patrolPoints = new Transform[2];
 		patrolPoints[0] = patrol.GetChild(0);
 		patrolPoints[1] = patrol.GetChild(1);
@@ -42,5 +45,13 @@ public class Patrol : MonoBehaviour {
 		yield return new WaitForSeconds(3);
 		
 		directionX = -directionX;
+	}
+	
+	private void DealtDamage(DamagePacket packet) {
+		health -= packet.Damage;
+		if (health <= 0) {
+			Destroy(gameObject);
+			ScoreGUI.Instance.AddScore(packet.Source, 50);
+		}
 	}
 }

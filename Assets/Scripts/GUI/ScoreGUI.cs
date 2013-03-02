@@ -3,14 +3,25 @@ using System.Collections;
 
 public class ScoreGUI : MonoBehaviour 
 {	
-	public int playerScore = 0;
-	public int playerTime = 300; 
+	public int[] playerScore = new int[(int)NinjaController.PlayerID.NumPlayer];
 	private float nextUpdateTime = 0.0F;
 	public float updateIntervalMax = 1.0F; // maximum of 10 updates per second
 	
-	// Use this for initialization
-	void Start () 
-	{
+	private static ScoreGUI _instance;
+	public static ScoreGUI Instance {
+		get { return _instance; }
+	}
+	
+	private void Start() {
+		if (_instance == null) {
+			_instance = this;
+		}
+	}
+	
+	private void Destroy() {
+		if (_instance == this) {
+			_instance = null;
+		}
 	}
 	
 	// Update is called once per frame
@@ -19,24 +30,17 @@ public class ScoreGUI : MonoBehaviour
 		if(Time.realtimeSinceStartup > nextUpdateTime)
 		{
 			nextUpdateTime = Time.realtimeSinceStartup + updateIntervalMax;
-			playerTime--;
 		}
 	}
 	
-	void AddScore(int myValue)
+	public void AddScore(int playerID, int myValue)
 	{
-		playerScore += myValue;
-	}
-	
-	void AddTimeToScore()
-	{
-		if(playerTime > 0)
-			playerScore += playerTime*10; 
+		playerScore[playerID] += myValue;
 	}
 	
  	void OnGUI ()
 	{
-		GUILayout.Label("Score : " + playerScore);
-		GUILayout.Label("Time : " + playerTime);		
+		GUILayout.Label("Player 1 : " + playerScore[0]);
+		GUILayout.Label("Player 2 : " + playerScore[1]);
 	}
 }

@@ -4,7 +4,7 @@ using System.Collections;
 public class Shuriken : MonoBehaviour {
 
 	private bool rotate = true;
-	
+	public DamagePacket packet;
 	// Use this for initialization
 	void Start () {
 	
@@ -20,7 +20,11 @@ public class Shuriken : MonoBehaviour {
 	{
 		particleSystem.Play();
 		Destroy(gameObject.rigidbody);
+		collider.enabled = false;
 		gameObject.renderer.enabled = false;
+		if (packet != null) {
+			collision.collider.SendMessage("DealtDamage", packet, SendMessageOptions.DontRequireReceiver);
+		}
 		
 		rotate = false;
 		StartCoroutine(DestroyShuriken());
