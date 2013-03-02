@@ -34,7 +34,7 @@ public class networkController : MonoBehaviour
 	public GameObject playerPrefab;
 	public float networkUpdateIntervalMax = 0.1F;
 	
-	class MyState
+	public class MyState
 	{
 		public Vector3 pos;
 		public Vector3 velocity;
