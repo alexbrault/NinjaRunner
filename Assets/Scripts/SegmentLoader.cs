@@ -32,13 +32,6 @@ public class SegmentLoader : MonoBehaviour {
 			_instance = null;
 		}
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (Input.GetKeyDown(KeyCode.Space)) {
-			AddSegmentToLevel();
-		}
-	}
 
 	public float AddSegmentToLevel() {
 		var segmentTemplate = GetRandomSegmentTemplate();
