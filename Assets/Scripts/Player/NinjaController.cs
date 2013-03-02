@@ -121,8 +121,6 @@ public class NinjaController : MonoBehaviour {
 		
 		Vector3 direction = new Vector3(2.5f * facing, -0.5f, 0);
 		
-		GameObject[] shurikens = new GameObject[3];
-		
 		for(int i = 0; i < 3; i++)
 		{
 			GameObject throwed = (GameObject)GameObject.Instantiate(Shuriken, gameObject.transform.position, Quaternion.Euler(new Vector3(-90, 0, 0)));
@@ -131,13 +129,6 @@ public class NinjaController : MonoBehaviour {
 			throwed.rigidbody.AddForce(direction * 1000);
 			
 			Physics.IgnoreCollision(gameObject.collider, throwed.collider, true);
-			
-//			for(int j = 0; j < i; j++)
-//			{
-//				Physics.IgnoreCollision(throwed.collider, shurikens[j].collider, true);
-//			}
-			
-			shurikens[i] = throwed;
 			yield return new WaitForSeconds(0.1f);
 		}
 		
