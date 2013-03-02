@@ -39,7 +39,7 @@ public class NinjaController : MonoBehaviour {
 									{"P2Left", "P2Right", "P2Jump", "P2Shoot"}, 
 									{"null", "null", "null", "null"},
 								};
-	
+	private int facing = 1;
 	public GameObject Shuriken;
 	
 	private int jumpsAvailable = 2;
@@ -78,11 +78,13 @@ public class NinjaController : MonoBehaviour {
 		if(InputEx.GetButton(KeyNames[Player, KeyID.Left]))
 		{
 			gameObject.rigidbody.AddForce(Vector3.left * RunAcceleration * 100);
+			facing = -1;
 		}
 		
 		else if (InputEx.GetButton(KeyNames[Player, KeyID.Right]))
 		{
 			gameObject.rigidbody.AddForce(Vector3.right * RunAcceleration * 100);
+			facing = +1;
 		}
 		
 		if(gameObject.rigidbody.velocity.magnitude > MaxSpeed)
@@ -108,6 +110,7 @@ public class NinjaController : MonoBehaviour {
 	{
 		gameObject.rigidbody.AddForce(new Vector3(nextWallJumpX, 1, 0) * WallJumpForce * 100);
 		jumpsAvailable = 1;
+		facing = -facing;
 		canMove = false;
 		onWall = false;
 	}
@@ -116,10 +119,7 @@ public class NinjaController : MonoBehaviour {
 	{
 		canShoot = false;
 		
-		Vector3 direction = new Vector3(2.5f, -0.5f, 0);
-		
-		if(gameObject.rigidbody.velocity.x < 0)
-			direction.x = -2.5f;
+		Vector3 direction = new Vector3(2.5f * facing, -0.5f, 0);
 		
 		GameObject[] shurikens = new GameObject[3];
 		
