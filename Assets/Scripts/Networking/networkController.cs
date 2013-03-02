@@ -73,6 +73,11 @@ public class networkController : MonoBehaviour
 					{
 						networkView.RPC("ClientUpdatePlayer",RPCMode.Server,lastLocalPlayerPosition);
 					}
+					
+					else
+					{
+						networkView.RPC("ServerUpdatePlayer",RPCMode.Others, Network.player, lastLocalPlayerPosition);
+					}
 				}
 			}
 		}		
@@ -254,7 +259,7 @@ public class networkController : MonoBehaviour
 		
 		players.Add(p,newPlayer);
 		
-		if(Network.isClient && p.ipAddress!=LocalAddress) 
+		if(p.ipAddress!=LocalAddress)//Network.isClient && p.ipAddress!=LocalAddress) 
 		{
 			Debug.Log("Another player connected: " + newPlayerView.ToString());
 			
@@ -268,10 +273,13 @@ public class networkController : MonoBehaviour
 			if(Network.isClient)
 			{
 				Debug.Log("Server accepted my connection request, I am real player now: " + newPlayerView.ToString());
+				newPlayer.GetComponent<NinjaController>().SetPlayer(NinjaController.PlayerID.Player2);
 			}
+			
 			else
 			{
 				Debug.Log("Server is a player now: " + newPlayerView.ToString());			
+				newPlayer.GetComponent<NinjaController>().SetPlayer(NinjaController.PlayerID.Player1);
 			}
 			
 			// because this is the local player, activate the character controller
