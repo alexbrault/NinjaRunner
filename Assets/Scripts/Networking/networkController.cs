@@ -261,7 +261,7 @@ public class networkController : MonoBehaviour
 			
 			// because this in not the local player, deactivate the character controller
 			//newPlayer.GetComponent<CharacterController>().enabled = false;
-			//newPlayer.GetComponent<NinjaController>().isLocalPlayer = false;
+			newPlayer.GetComponent<NinjaController>().SetPlayer(NinjaController.PlayerID.PlayerNone);
 		} 
 			
 		else
