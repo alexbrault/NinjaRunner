@@ -36,6 +36,9 @@ public class Spritesheet {
 	public void CreateAnimation(string name, int framerate) {
 		var animation = new SpriteAnimation(framerate);
 		animations.Add(name, animation);
+		if (animations.Count == 1) {
+			SetCurrentAnimation(name);
+		}
 	}
 	
 	public bool AddFrame(string animationName, int x, int y, int width, int height) {
