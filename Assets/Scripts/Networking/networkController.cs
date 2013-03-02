@@ -31,6 +31,15 @@ public class networkController : MonoBehaviour
 	public GameObject playerPrefab;
 	public float networkUpdateIntervalMax = 0.1F;
 	
+	internal struct  State
+	{
+		internal double timestamp;
+		internal Vector3 pos;
+		internal Vector3 velocity;
+		internal Quaternion rot;
+		internal Vector3 angularVelocity;
+	}
+	
 	void Start () 
 	{	
 		LocalAddress = GetLocalIPAddress();
@@ -40,7 +49,7 @@ public class networkController : MonoBehaviour
 	
 	void Update () 
 	{
-		//if(Time.realtimeSinceStartup > nextNetworkUpdateTime)
+		if(Time.realtimeSinceStartup > nextNetworkUpdateTime)
 		{
 			nextNetworkUpdateTime = Time.realtimeSinceStartup + networkUpdateIntervalMax;
 			if(localPlayerObject!=null)
@@ -49,9 +58,15 @@ public class networkController : MonoBehaviour
 				{
 					lastLocalPlayerPosition = localPlayerObject.transform.position;
 					
+					State s = new State();
+					s.pos = localPlayerObject.rigidbody.position;
+					s.velocity = localPlayerObject.rigidbody.velocity;
+					s.rot = localPlayerObject.rigidbody.rotation;
+					s.angularVelocity = localPlayerObject.rigidbody.angularVelocity;
+					
 					if(Network.isClient)
 					{
-						networkView.RPC("ClientUpdatePlayer",RPCMode.Server,lastLocalPlayerPosition);
+						networkView.RPC("ClientUpdatePlayer",RPCMode.Server,s);
 					}
 					
 					else
@@ -140,22 +155,26 @@ public class networkController : MonoBehaviour
     }
 	
 	[RPC]
-	void ClientUpdatePlayer(Vector3 pos, NetworkMessageInfo info)
+	void ClientUpdatePlayer(State s, NetworkMessageInfo info)
 	{
 		
 		NetworkPlayer p = info.sender;
-		//networkView.RPC("ServerUpdatePlayer",RPCMode.Others, p, pos);
+		networkView.RPC("ServerUpdatePlayer",RPCMode.Others, p, s);
 		
-		ServerUpdatePlayer(p, pos);
+		ServerUpdatePlayer(p, s);
 	}
 	
 	[RPC]
-	void ServerUpdatePlayer(NetworkPlayer p, Vector3 pos)
+	void ServerUpdatePlayer(NetworkPlayer p, State s)
 	{
 		if(players.ContainsKey(p))
 		{
 			GameObject gop = (GameObject)players[p];
-			gop.transform.position = pos;
+			
+			gop.rigidbody.position = s.pos;
+			gop.rigidbody.velocity = s.velocity;
+			gop.rigidbody.rotation = s.rot;
+			gop.rigidbody.angularVelocity = s.angularVelocity;
 		}
 	}
 	
