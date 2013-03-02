@@ -22,7 +22,10 @@ public class NinjaController : MonoBehaviour {
 		public const int Jump = 2;
 	}
 	
-	public string[,] KeyNames = {{"P1Left", "P1Right", "P1Jump"}, {"P2Left", "P2Right", "P2Jump"}};
+	public string[,] KeyNames = {
+									{"P1Left", "P1Right", "P1Jump"}, 
+									{"P2Left", "P2Right", "P2Jump"}
+								};
 	
 	private bool canJump = true;
 	private bool canMove = true;
