@@ -31,7 +31,7 @@ public class networkController : MonoBehaviour
 	public GameObject playerPrefab;
 	public float networkUpdateIntervalMax = 0.1F;
 	
-	internal struct  State
+	class MyState
 	{
 		internal double timestamp;
 		internal Vector3 pos;
@@ -58,7 +58,7 @@ public class networkController : MonoBehaviour
 				{
 					lastLocalPlayerPosition = localPlayerObject.transform.position;
 					
-					State s = new State();
+					MyState s = new MyState();
 					s.pos = localPlayerObject.rigidbody.position;
 					s.velocity = localPlayerObject.rigidbody.velocity;
 					s.rot = localPlayerObject.rigidbody.rotation;
@@ -68,11 +68,11 @@ public class networkController : MonoBehaviour
 					{
 						networkView.RPC("ClientUpdatePlayer",RPCMode.Server,s);
 					}
-					
+					/*
 					else
 					{
-						networkView.RPC("ServerUpdatePlayer",RPCMode.Others, Network.player, lastLocalPlayerPosition);
-					}
+						networkView.RPC("ServerUpdatePlayer",RPCMode.Others, Network.player, s);
+					}*/
 				}
 			}
 		}		
@@ -155,7 +155,7 @@ public class networkController : MonoBehaviour
     }
 	
 	[RPC]
-	void ClientUpdatePlayer(State s, NetworkMessageInfo info)
+	void ClientUpdatePlayer(MyState s, NetworkMessageInfo info)
 	{
 		
 		NetworkPlayer p = info.sender;
@@ -165,7 +165,7 @@ public class networkController : MonoBehaviour
 	}
 	
 	[RPC]
-	void ServerUpdatePlayer(NetworkPlayer p, State s)
+	void ServerUpdatePlayer(NetworkPlayer p, MyState s)
 	{
 		if(players.ContainsKey(p))
 		{
