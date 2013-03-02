@@ -7,12 +7,8 @@ public class Segment : MonoBehaviour {
 	public float SegmentWidth = 10.0f;
 	public static Transform[] patrollers;
 	
-	private static Transform parent;
-	
 	private void Start() {
 		InitStatics();
-		InitParent();
-				
 		FindSafeSpawn();
 		
 		var patrolPaths = GetComponentsInChildren<PatrolPath>();
@@ -29,19 +25,12 @@ public class Segment : MonoBehaviour {
 	}
 	
 	private void InitStatics() {
-		if (parent == null) {
-			parent = GameObject.Find("Globals").transform;
-		}
 		if (patrollers == null) {
 			var resources = from r in ResourcesEx.LoadAll<Transform>("Patrollers")
 							where r.HasComponent<Patrol>()
 							select r;
 			patrollers = resources.ToArray();
 		}
-	}
-
-	void InitParent() {
-		transform.parent = parent;
 	}
 
 	void FindSafeSpawn() {
@@ -52,10 +41,10 @@ public class Segment : MonoBehaviour {
 		BoxCollider bc = gameObject.AddComponent<BoxCollider>();
 		bc.isTrigger = true;
 		bc.size = new Vector3(SegmentWidth, 100, 1);
-		bc.center = new Vector3(SegmentWidth / 2, 0, 0);
+		bc.center = new Vector3(0, 0, 0);
 	}
 	
 	void OnDrawGizmos() {
-		Gizmos.DrawWireCube(transform.position + new Vector3(SegmentWidth / 2, 0, 0), new Vector3(SegmentWidth, 100, 1));
+		Gizmos.DrawWireCube(transform.position, new Vector3(SegmentWidth, 100, 1));
 	}
 }

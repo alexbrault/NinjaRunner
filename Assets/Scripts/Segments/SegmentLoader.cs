@@ -19,7 +19,7 @@ public class SegmentLoader : MonoBehaviour {
 	
 	void Start () {
 		var resources = from r in ResourcesEx.LoadAll<Transform>("MapSegments")
-						where r.HasComponent<Segment>()
+						where r.HasComponent<MirrorableSegment>()
 						select r;
 		segments = resources.ToList();
 		if (_instance == null) {
@@ -40,14 +40,10 @@ public class SegmentLoader : MonoBehaviour {
 
 	public float AddSegmentToLevel() {
 		var segmentTemplate = GetRandomSegmentTemplate();
-		var segmentWidth = segmentTemplate.GetComponent<Segment>().SegmentWidth;
-		
-		Vector3 position = NextSegmentLocation(segmentWidth);
-		Instantiate(segmentTemplate, position, Quaternion.identity);
-		
-		position.x = -position.x - segmentWidth;
-		Instantiate(segmentTemplate, position, Quaternion.identity);
-		
+		var segmentWidth = segmentTemplate.GetComponent<MirrorableSegment>().SegmentWidth;
+		Transform mirror = Instantiate(segmentTemplate) as Transform;
+		mirror.GetComponent<MirrorableSegment>().PlaceSegments(nextSegmentX);
+		nextSegmentX += segmentWidth;
 		return segmentWidth;
 	}
 
