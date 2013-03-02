@@ -20,16 +20,20 @@ public class NinjaController : MonoBehaviour {
 		public const int Left = 0;
 		public const int Right = 1;
 		public const int Jump = 2;
+		public const int Shoot = 3;
 	}
 	
 	public string[,] KeyNames = {
-									{"P1Left", "P1Right", "P1Jump"}, 
-									{"P2Left", "P2Right", "P2Jump"}
+									{"P1Left", "P1Right", "P1Jump", "P1Shoot"}, 
+									{"P2Left", "P2Right", "P2Jump", "P2Shoot"}
 								};
+	
+	public GameObject Shuriken;
 	
 	private bool canJump = true;
 	private bool canMove = true;
 	private bool onWall = false;
+	private bool canShoot = true;
 	
 	private int nextWallJumpX = -1;
 	
@@ -54,8 +58,12 @@ public class NinjaController : MonoBehaviour {
 			if(canJump && Input.GetButtonDown(KeyNames[Player, KeyID.Jump]))
 				Jump();
 		}
+		
 		if(onWall && Input.GetButtonDown(KeyNames[Player, KeyID.Jump]))
 			WallJump();
+		
+		if(!canJump && canShoot && Input.GetButtonDown(KeyNames[Player, KeyID.Shoot]))
+			StartCoroutine(ShootShurikens());
 	}
 	
 	void Run()
@@ -93,6 +101,43 @@ public class NinjaController : MonoBehaviour {
 		gameObject.rigidbody.AddForce(new Vector3(nextWallJumpX, 1, 0) * WallJumpForce * 50);
 		canJump = false;
 		onWall = false;
+	}
+	
+	IEnumerator ShootShurikens()
+	{
+		canShoot = false;
+		
+		Vector3 direction = new Vector3(2.5f, -0.5f, 0);
+		
+		if(gameObject.rigidbody.velocity.x < 0)
+			direction.x = -2.5f;
+		
+		GameObject[] shurikens = new GameObject[3];
+		
+		for(int i = 0; i < 3; i++)
+		{
+			GameObject throwed = (GameObject)GameObject.Instantiate(Shuriken, gameObject.transform.position, Quaternion.Euler(new Vector3(-90, 0, 0)));
+			throwed.rigidbody.AddForce(direction * 1000);
+			
+			Physics.IgnoreCollision(gameObject.collider, throwed.collider, true);
+			
+			for(int j = 0; j < i; j++)
+			{
+				Debug.Log (i);
+				Physics.IgnoreCollision(throwed.collider, shurikens[j].collider, true);
+			}
+			
+			shurikens[i] = throwed;
+			yield return new WaitForSeconds(0.1f);
+		}
+		
+		StartCoroutine(ReloadShurikens());
+	}
+	
+	IEnumerator ReloadShurikens()
+	{
+		yield return new WaitForSeconds(0.5f);
+		canShoot = true;
 	}
 	
 	void OnCollisionEnter(Collision collision)
