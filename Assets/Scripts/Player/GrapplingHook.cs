@@ -22,15 +22,19 @@ public class GrapplingHook : MonoBehaviour {
 					{
 						if(gameObject.rigidbody.velocity.x > 0 && gameObject.transform.position.x < collider.transform.position.x)
 						{
-							gameObject.GetComponent<NinjaController>().enabled = false;
-							gameObject.transform.LookAt(new Vector3(1, 0, 0), Vector3.up );
+							//gameObject.GetComponent<NinjaController>().enabled = false;
+							float angle = Vector3.Angle (Vector3.up, collider.transform.position - gameObject.transform.position);
+							
+							gameObject.transform.RotateAroundLocal(new Vector3(0, 0, -1), angle);
 							Debug.Log ("Grapples");
 							break;
 						}
 						
 						else if(gameObject.rigidbody.velocity.x < 0 && collider.transform.position.x < gameObject.transform.position.x)
 						{
-							gameObject.GetComponent<NinjaController>().enabled = false;
+							float angle = Vector3.Angle (Vector3.up, collider.transform.position - gameObject.transform.position);
+							
+							gameObject.transform.RotateAroundLocal(new Vector3(0, 0, -1), angle);
 							
 							Debug.Log ("Grapples");
 							break; 
