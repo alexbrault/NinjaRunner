@@ -3,6 +3,8 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour {
 	
+	public GameObject finalBattle;
+	
 	public Transform Player1;
 	public Transform Player2;
 	
@@ -25,40 +27,34 @@ public class GameManager : MonoBehaviour {
 		{
 			if(Player2.position.x - Player1.position.x < 60)
 			{
-				Debug.Log ("Battle");
 				int player1Score = gameObject.GetComponent<ScoreManager>().playerScore[0];
 				int player2Score = gameObject.GetComponent<ScoreManager>().playerScore[1];
 				
 				player1Score += (int)(Player1.position.x - player1StartX);
 				player2Score += (int)(player2StartX - Player2.position.x);
 				
+				
+				GameObject battle = (GameObject)GameObject.Instantiate(finalBattle);
+				GameObject.DontDestroyOnLoad(battle);
+				
+				battle.GetComponent<FinalBattle>().maxDeltaScore = (int)(player2StartX - player1StartX);
+				
 				if(player1Score > player2Score)
 				{
-					StartCoroutine(BattleAndKillLooser(Player1.gameObject, Player2.gameObject, player1Score - player2Score));
+					battle.GetComponent<FinalBattle>().winner = Player1.gameObject;
+					battle.GetComponent<FinalBattle>().looser = Player2.gameObject;
+					battle.GetComponent<FinalBattle>().deltaScore = player1Score - player2Score;
 				}
 				
 				else
 				{
-					StartCoroutine(BattleAndKillLooser(Player2.gameObject, Player1.gameObject, player2Score - player1Score));
+					battle.GetComponent<FinalBattle>().winner = Player2.gameObject;
+					battle.GetComponent<FinalBattle>().looser = Player1.gameObject;
+					battle.GetComponent<FinalBattle>().deltaScore = player2Score - player1Score;
 				}
+				
+				Application.LoadLevel("FinalBattle");
 			}
 		}
-	}
-	
-	IEnumerator BattleAndKillLooser(GameObject winner, GameObject looser, int deltaScore)
-	{
-		float seconds = Mathf.Log(player2StartX - player1StartX - deltaScore);
-		
-		if(seconds < 0)
-			seconds = 0;
-		
-		Debug.Log (seconds);
-		inAnim = true;
-		
-		yield return new WaitForSeconds(seconds);
-		
-		Debug.Log ("Winner : " + winner.name);
-		Debug.Log (deltaScore);
-		Debug.Break();
 	}
 }
