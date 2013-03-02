@@ -28,7 +28,7 @@ public class SpriteAnimation {
 	
 	public AnimationFrame CurrentFrame {
 		get {
-			rawFrame += Time.deltaTime * 1000;
+			rawFrame += Time.deltaTime / Time.timeScale * 1000;
 			
 			if (rawFrame >= FrameRate) {
 				rawFrame -= FrameRate;
