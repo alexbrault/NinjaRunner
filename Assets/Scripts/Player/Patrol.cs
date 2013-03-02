@@ -8,11 +8,7 @@ public class Patrol : MonoBehaviour {
 	private Transform[] patrolPoints;
 	private int directionX;
 	
-	// Use this for initialization
-	void Start () {
-	
-		Transform patrol = GameObject.Find("Patrol").transform;
-		
+	public void StartPatrol(Transform patrol) {		
 		patrolPoints = new Transform[2];
 		patrolPoints[0] = patrol.GetChild(0);
 		patrolPoints[1] = patrol.GetChild(1);
@@ -27,7 +23,6 @@ public class Patrol : MonoBehaviour {
 			directionX = 1;
 	}
 	
-	// Update is called once per frame
 	void Update () {
 	
 		rigidbody.velocity = new Vector3(directionX, 0, 0) * WalkingSpeed * 10;
