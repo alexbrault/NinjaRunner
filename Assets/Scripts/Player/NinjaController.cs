@@ -109,14 +109,14 @@ public class NinjaController : MonoBehaviour {
 		float varX = 
 			  (InputEx.GetButton(KeyNames[Player, KeyID.Left]) ? -1 : 0)
 			+ (InputEx.GetButton(KeyNames[Player, KeyID.Right]) ? 1 : 0);
-		gameObject.rigidbody.AddForce(new Vector3(varX, 1, 0) * JumpForce * 100 * jumpsAvailable / 2);
+		gameObject.rigidbody.AddForce(new Vector3(varX, 1, 0) * JumpForce * 25 );
 		canMove = true;
 		jumpsAvailable--;
 	}
 	
 	void WallJump()
 	{
-		gameObject.rigidbody.AddForce(new Vector3(nextWallJumpX, 1, 0) * WallJumpForce * 100);
+		gameObject.rigidbody.AddForce(new Vector3(nextWallJumpX, 1, 0) * WallJumpForce * 10);
 		jumpsAvailable = 1;
 		facing = -facing;
 		canMove = false;
@@ -134,7 +134,7 @@ public class NinjaController : MonoBehaviour {
 			GameObject throwed = (GameObject)GameObject.Instantiate(Shuriken, gameObject.transform.position, Quaternion.Euler(new Vector3(-90, 0, 0)));
 			Shuriken shuriken = throwed.GetComponent<Shuriken>();
 			shuriken.packet = new DamagePacket(1, Player);
-			throwed.rigidbody.AddForce(direction * 1000);
+			throwed.rigidbody.AddForce(direction * 100);
 			
 			Physics.IgnoreCollision(gameObject.collider, throwed.collider, true);
 			yield return new WaitForSeconds(0.1f);

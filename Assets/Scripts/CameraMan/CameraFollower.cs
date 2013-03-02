@@ -5,7 +5,7 @@ public class CameraFollower : MonoBehaviour {
 	public Transform target;
 	private Vector3 delta;
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		delta = transform.position - target.position;
 	}
 	
