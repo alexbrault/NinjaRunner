@@ -9,6 +9,11 @@ public static class ResourcesEx {
 		return Array.ConvertAll(resources, resource => resource as TOutput);
 	}
 	
+	public static TOutput Load<TOutput>(string path) where TOutput : class{
+		var resource = Resources.Load(path, typeof(TOutput));
+		return resource as TOutput;
+	}
+	
 	public static bool HasComponent<TComponent>(this Component o) where TComponent : Component{
 		return o.GetComponent<TComponent>() != null;
 	}
