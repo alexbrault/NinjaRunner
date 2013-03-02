@@ -4,12 +4,17 @@ using System.Collections;
 public class NinjaController : MonoBehaviour {
 	
 	public int JumpForce;
+	public int WallJumpForce;
 	public int RunSpeed;
 	public int MaxSpeed;
 	
 	public bool enabled;
 	
 	private bool canJump = true;
+	private bool canMove = true;
+	private bool onWall = false;
+	
+	private int nextWallJumpX = -1;
 	
 	// Use this for initialization
 	void Start () {
@@ -26,12 +31,17 @@ public class NinjaController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
-		if(enabled)
+		if(enabled && canMove)
 		{
 			Run ();
 			
-			if(Input.GetButtonDown("Jump"))
+			if(canJump && Input.GetButtonDown("Jump"))
 				Jump();
+		}
+		
+		if(onWall && Input.GetButtonDown("Jump"))
+		{
+			WallJump();
 		}
 	}
 	
@@ -61,11 +71,15 @@ public class NinjaController : MonoBehaviour {
 	
 	void Jump()
 	{
-		if(canJump)
-		{
-			gameObject.rigidbody.AddForce(Vector3.up * JumpForce * 100);
-			canJump = false;
-		}
+		gameObject.rigidbody.AddForce(Vector3.up * JumpForce * 100);
+		canJump = false;
+	}
+	
+	void WallJump()
+	{
+		gameObject.rigidbody.AddForce(new Vector3(nextWallJumpX, 1, 0) * WallJumpForce * 50);
+		canJump = false;
+		onWall = false;
 	}
 	
 	void OnCollisionEnter(Collision collision)
@@ -73,6 +87,32 @@ public class NinjaController : MonoBehaviour {
 		Collider contact = collision.collider;
 
 		if(contact.gameObject.tag == "Floor")
+		{
 			canJump = true;
+			canMove = true;
+		}
+		
+		if(contact.gameObject.tag == "Wall")
+		{
+			canMove = false;
+			onWall = true;
+			gameObject.rigidbody.velocity = new Vector3(0, 0, 0);
+			gameObject.rigidbody.useGravity = false;
+			
+			if(contact.gameObject.transform.position.x - gameObject.transform.position.x > 0)
+				nextWallJumpX = -1;
+			
+			else
+				nextWallJumpX = 1;
+			
+			StartCoroutine(FallOffWall());
+		}
+	}
+	
+	IEnumerator FallOffWall()
+	{
+	    yield return new WaitForSeconds(1);
+		gameObject.rigidbody.useGravity = true;
+		onWall = false;
 	}
 }
