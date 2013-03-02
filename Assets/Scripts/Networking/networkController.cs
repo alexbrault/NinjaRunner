@@ -35,13 +35,12 @@ public class networkController : MonoBehaviour
 	{	
 		LocalAddress = GetLocalIPAddress();
 		ServerAddress = LocalAddress;
-		Debug.Log("Local IP Address: " + LocalAddress);
 		GameState = (int)state.mainmenu;
 	}
 	
 	void Update () 
 	{
-		if(Time.realtimeSinceStartup > nextNetworkUpdateTime)
+		//if(Time.realtimeSinceStartup > nextNetworkUpdateTime)
 		{
 			nextNetworkUpdateTime = Time.realtimeSinceStartup + networkUpdateIntervalMax;
 			if(localPlayerObject!=null)
@@ -87,9 +86,9 @@ public class networkController : MonoBehaviour
 	
 	void OnConnectedToServer()
 	{	
-		networkView.RPC("SendAllPlayers", RPCMode.Server);
+		//networkView.RPC("SendAllPlayers", RPCMode.Server);
 	}
-	
+	/*
 	[RPC]
 	void SendAllPlayers(NetworkMessageInfo info)
 	{
@@ -107,11 +106,10 @@ public class networkController : MonoBehaviour
 				}
 	    	}
 		}
-	}
+	}*/
 	
     void OnFailedToConnect(NetworkConnectionError error) 
 	{
-        Debug.Log("Could not connect to server: " + error);
 		GameState = (int)state.failconnect;
     }
 
@@ -132,17 +130,12 @@ public class networkController : MonoBehaviour
 		
 		NetworkViewID newViewID = Network.AllocateViewID();
 		
-		Debug.Log("Player " + newViewID.ToString() + " connected from " + ServerAddress + ": 25000");
-		Debug.Log("There are now " + playerCount + " players.");
-		
-		
 		Vector3 pos = Vector3.zero;		
 		JoinPlayer(newViewID, pos, Network.player);
 	}
 	
 	void OnServerInitialized() 
 	{
-        Debug.Log("Server initialized and ready");
 		GameState = (int)state.waitclient;
     }
 	
@@ -151,7 +144,7 @@ public class networkController : MonoBehaviour
 	{
 		
 		NetworkPlayer p = info.sender;
-		networkView.RPC("ServerUpdatePlayer",RPCMode.Others, p, pos);
+		//networkView.RPC("ServerUpdatePlayer",RPCMode.Others, p, pos);
 		
 		ServerUpdatePlayer(p, pos);
 	}
@@ -175,9 +168,6 @@ public class networkController : MonoBehaviour
 			NetworkViewID newViewID = Network.AllocateViewID();
 			
 			networkView.RPC("JoinPlayer", RPCMode.All, newViewID, Vector3.zero, p);
-				
-			Debug.Log("Player " + newViewID.ToString() + " connected from " + p.ipAddress + ":" + p.port);
-			Debug.Log("There are now " + playerCount + " players.");
 		}
     }
 	
@@ -196,7 +186,6 @@ public class networkController : MonoBehaviour
 		
 		if(p.ipAddress!=LocalAddress)
 		{
-			Debug.Log("Another player connected: " + newPlayerView.ToString());
 			newPlayer.GetComponent<NinjaController>().SetPlayer(NinjaController.PlayerID.PlayerNone);
 			Destroy(newPlayer.transform.FindChild("Camera").gameObject);
 		} 
@@ -205,13 +194,11 @@ public class networkController : MonoBehaviour
 		{
 			if(Network.isClient)
 			{
-				Debug.Log("Server accepted my connection request, I am real player now: " + newPlayerView.ToString());
 				newPlayer.GetComponent<NinjaController>().SetPlayer(NinjaController.PlayerID.Player2);
 			}
 			
 			else
-			{
-				Debug.Log("Server is a player now: " + newPlayerView.ToString());			
+			{		
 				newPlayer.GetComponent<NinjaController>().SetPlayer(NinjaController.PlayerID.Player1);
 			}
 			
@@ -225,10 +212,6 @@ public class networkController : MonoBehaviour
 		if(Network.isServer)
 		{
 			playerCount--;
-			
-			Debug.Log("Player " + player.ToString() + " disconnected.");
-			Debug.Log("There are now " + playerCount + " players.");
-
 			networkView.RPC("DisconnectPlayer", RPCMode.All, player);	
 		}
     }
@@ -236,10 +219,6 @@ public class networkController : MonoBehaviour
 	[RPC]
 	void DisconnectPlayer(NetworkPlayer player)
 	{
-		if(Network.isClient) 
-		{
-			Debug.Log("Player Disconnected: " + player.ToString());
-		}
 		
 		if(players.ContainsKey(player))
 		{
