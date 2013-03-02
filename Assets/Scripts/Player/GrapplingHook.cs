@@ -23,7 +23,7 @@ public class GrapplingHook : MonoBehaviour {
 						if(gameObject.rigidbody.velocity.x > 0 && gameObject.transform.position.x < collider.transform.position.x)
 						{
 							gameObject.GetComponent<NinjaController>().enabled = false;
-							gameObject.transform.LookAt(new Vector3(1, 0, 0), collider.transform.position.x - gameObject.transform.position.x );
+							gameObject.transform.LookAt(new Vector3(1, 0, 0), Vector3.up );
 							Debug.Log ("Grapples");
 							break;
 						}
