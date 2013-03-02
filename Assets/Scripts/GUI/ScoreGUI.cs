@@ -1,46 +1,27 @@
 using UnityEngine;
 using System.Collections;
 
-public class ScoreGUI : MonoBehaviour 
-{	
-	public int[] playerScore = new int[(int)NinjaController.PlayerID.NumPlayer];
-	private float nextUpdateTime = 0.0F;
-	public float updateIntervalMax = 1.0F; // maximum of 10 updates per second
+public class ScoreGUI : MonoBehaviour {
 	
-	private static ScoreGUI _instance;
-	public static ScoreGUI Instance {
-		get { return _instance; }
-	}
+	public int noPlayer = 1;
 	
-	private void Start() {
-		if (_instance == null) {
-			_instance = this;
-		}
-	}
-	
-	private void Destroy() {
-		if (_instance == this) {
-			_instance = null;
-		}
+	// Use this for initialization
+	void Start () 
+	{
+		noPlayer = this.gameObject.GetComponent<NinjaController>().Player;
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		if(Time.realtimeSinceStartup > nextUpdateTime)
-		{
-			nextUpdateTime = Time.realtimeSinceStartup + updateIntervalMax;
-		}
-	}
 	
-	public void AddScore(int playerID, int myValue)
-	{
-		playerScore[playerID] += myValue;
 	}
 	
  	void OnGUI ()
 	{
-		GUILayout.Label("Player 1 : " + playerScore[0]);
-		GUILayout.Label("Player 2 : " + playerScore[1]);
+		GUI.Label( new Rect(0, gameObject.transform.FindChild("Camera").gameObject.camera.pixelRect.y, 200, 50),
+				"Player " + (noPlayer+1) + " : " + ScoreManager.Instance.GetScore(noPlayer+1));
+				
+		//GUI.Label(new Rect(0,Screen.height/noPlayer + 20, 200, 50), "Time : " + playerTime);
 	}
 }

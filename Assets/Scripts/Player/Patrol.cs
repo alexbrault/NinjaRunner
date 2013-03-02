@@ -51,7 +51,7 @@ public class Patrol : MonoBehaviour {
 		health -= packet.Damage;
 		if (health <= 0) {
 			Destroy(gameObject);
-			ScoreGUI.Instance.AddScore(packet.Source, 50);
+			ScoreManager.Instance.AddScore(packet.Source, 50);
 		}
 	}
 }

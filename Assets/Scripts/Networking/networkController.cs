@@ -227,7 +227,7 @@ public class networkController : MonoBehaviour
 		if(p.ipAddress!=LocalAddress)
 		{
 			newPlayer.GetComponent<NinjaController>().SetPlayer(NinjaController.PlayerID.PlayerNone);
-			Destroy(newPlayer.transform.FindChild("Camera").gameObject);
+			//Destroy(newPlayer.transform.FindChild("Camera").gameObject);
 		} 
 			
 		else
