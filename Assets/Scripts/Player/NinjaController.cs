@@ -50,16 +50,8 @@ public class NinjaController : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-//		GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 		Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"),LayerMask.NameToLayer("Player"));
 		Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"),LayerMask.NameToLayer("IgnorePlayerCollision"));
-		
-//		
-//		foreach(GameObject go in players)
-//		{
-//			if(gameObject != go)
-//				Physics.IgnoreCollision(gameObject.collider, go.collider, true);
-//		}
 	}
 	
 	// Update is called once per frame
