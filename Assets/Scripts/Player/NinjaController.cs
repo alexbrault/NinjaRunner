@@ -5,7 +5,7 @@ public class NinjaController : MonoBehaviour {
 	
 	public int JumpForce;
 	public int WallJumpForce;
-	public int RunSpeed;
+	public int RunAcceleration;
 	public int MaxSpeed;
 	
 	public enum PlayerID : int {
@@ -70,12 +70,12 @@ public class NinjaController : MonoBehaviour {
 	{
 		if(Input.GetButton(KeyNames[Player, KeyID.Left]))
 		{
-			gameObject.rigidbody.AddForce(Vector3.left * RunSpeed * 100);
+			gameObject.rigidbody.AddForce(Vector3.left * RunAcceleration * 100);
 		}
 		
 		else if (Input.GetButton(KeyNames[Player, KeyID.Right]))
 		{
-			gameObject.rigidbody.AddForce(Vector3.right * RunSpeed * 100);
+			gameObject.rigidbody.AddForce(Vector3.right * RunAcceleration * 100);
 		}
 		
 		if(gameObject.rigidbody.velocity.magnitude > MaxSpeed)
@@ -98,7 +98,7 @@ public class NinjaController : MonoBehaviour {
 	
 	void WallJump()
 	{
-		gameObject.rigidbody.AddForce(new Vector3(nextWallJumpX, 1, 0) * WallJumpForce * 50);
+		gameObject.rigidbody.AddForce(new Vector3(nextWallJumpX, 1, 0) * WallJumpForce * 100);
 		canJump = false;
 		onWall = false;
 	}
@@ -150,7 +150,7 @@ public class NinjaController : MonoBehaviour {
 			canMove = true;
 		}
 		
-		if(contact.gameObject.tag == "Wall")
+		if(contact.gameObject.tag == "Wall" && canJump == false)
 		{
 			canMove = false;
 			onWall = true;
