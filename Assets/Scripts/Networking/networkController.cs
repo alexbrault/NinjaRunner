@@ -33,11 +33,11 @@ public class networkController : MonoBehaviour
 	
 	class MyState
 	{
-		internal double timestamp;
-		internal Vector3 pos;
-		internal Vector3 velocity;
-		internal Quaternion rot;
-		internal Vector3 angularVelocity;
+		public double timestamp;
+		public Vector3 pos;
+		public Vector3 velocity;
+		public Quaternion rot;
+		public Vector3 angularVelocity;
 	}
 	
 	void Start () 
