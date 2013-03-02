@@ -1,14 +1,13 @@
 using UnityEngine;
 using System.Collections;
 
-public class PatrolPath : MonoBehaviour {
-	private Transform[] patrolPoints;
-	private void Awake() {
-		patrolPoints = new Transform[2];
-		patrolPoints[0] = transform.GetChild(0);
-		patrolPoints[1] = transform.GetChild(1);
-	}
+public class PatrolPath : MonoBehaviour {	
 	private void OnDrawGizmos() {
+		Transform[] patrolPoints = new Transform[2];
+		var points = GetComponentsInChildren<PatrolPoint>() as PatrolPoint[];
+		patrolPoints[0] = points[0].transform;
+		patrolPoints[1] = points[1].transform;
+		
 		Gizmos.color = Color.green;	
 		
 		Gizmos.DrawLine(patrolPoints[0].position, patrolPoints[1].position);

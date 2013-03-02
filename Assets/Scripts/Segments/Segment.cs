@@ -54,4 +54,8 @@ public class Segment : MonoBehaviour {
 		bc.size = new Vector3(SegmentWidth, 100, 1);
 		bc.center = new Vector3(SegmentWidth / 2, 0, 0);
 	}
+	
+	void OnDrawGizmos() {
+		Gizmos.DrawWireCube(transform.position + new Vector3(SegmentWidth / 2, 0, 0), new Vector3(SegmentWidth, 100, 1));
+	}
 }
