@@ -8,7 +8,21 @@ public class NinjaController : MonoBehaviour {
 	public int RunSpeed;
 	public int MaxSpeed;
 	
-	public bool enabled;
+	public enum PlayerID : int {
+		Player1 = 0,
+		Player2 = 1,
+	}
+	
+	public PlayerID player;
+	private int Player;
+	
+	public class KeyID {
+		public const int Left = 0;
+		public const int Right = 1;
+		public const int Jump = 2;
+	}
+	
+	public string[,] KeyNames = {{"P1Left", "P1Right", "P1Jump"}, {"P2Left", "P2Right", "P2Jump"}};
 	
 	private bool canJump = true;
 	private bool canMove = true;
@@ -18,6 +32,7 @@ public class NinjaController : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
+		Player = (int)player;
 		
 		GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 		
@@ -30,29 +45,24 @@ public class NinjaController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
-		if(enabled && canMove)
-		{
+		if (canMove) {
 			Run ();
 			
-			if(canJump && Input.GetButtonDown("Jump"))
+			if(canJump && Input.GetButtonDown(KeyNames[Player, KeyID.Jump]))
 				Jump();
 		}
-		
-		if(onWall && Input.GetButtonDown("Jump"))
-		{
+		if(onWall && Input.GetButtonDown(KeyNames[Player, KeyID.Jump]))
 			WallJump();
-		}
 	}
 	
 	void Run()
 	{
-		if(Input.GetKey(KeyCode.A))
+		if(Input.GetButton(KeyNames[Player, KeyID.Left]))
 		{
 			gameObject.rigidbody.AddForce(Vector3.left * RunSpeed * 100);
 		}
 		
-		else if (Input.GetKey(KeyCode.D))
+		else if (Input.GetButton(KeyNames[Player, KeyID.Right]))
 		{
 			gameObject.rigidbody.AddForce(Vector3.right * RunSpeed * 100);
 		}
