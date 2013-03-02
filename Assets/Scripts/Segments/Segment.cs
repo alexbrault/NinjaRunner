@@ -3,11 +3,11 @@ using System.Linq;
 using System.Collections;
 
 public class Segment : MonoBehaviour {
-	public Vector3 SafeSpawn { get; private set; }
+	public Transform SafeSpawn { get; private set; }
 	public float SegmentWidth = 10.0f;
 	public static Transform[] patrollers;
 	
-	private void Start() {
+	private void Awake() {
 		InitStatics();
 		FindSafeSpawn();
 		
@@ -34,17 +34,17 @@ public class Segment : MonoBehaviour {
 	}
 
 	void FindSafeSpawn() {
-		SafeSpawn = GetComponentInChildren<SafeSpawn>().transform.position;
+		SafeSpawn = GetComponentInChildren<SafeSpawn>().transform;
 	}
 
 	void AddTrigger() {
 		BoxCollider bc = gameObject.AddComponent<BoxCollider>();
 		bc.isTrigger = true;
 		bc.size = new Vector3(SegmentWidth, 100, 1);
-		bc.center = new Vector3(0, 0, 0);
+		bc.center = new Vector3(0, 50, 0);
 	}
 	
 	void OnDrawGizmos() {
-		Gizmos.DrawWireCube(transform.position, new Vector3(SegmentWidth, 100, 1));
+		Gizmos.DrawWireCube(transform.position + new Vector3(0, 50, 0), new Vector3(SegmentWidth, 100, 1));
 	}
 }

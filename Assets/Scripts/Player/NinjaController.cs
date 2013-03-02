@@ -184,7 +184,7 @@ public class NinjaController : MonoBehaviour {
 	}
 	
 	public void Respawn() {
-		transform.position = currentSegment.SafeSpawn;
+		transform.position = currentSegment.SafeSpawn.position;
 		canMove = false;
 		jumpsAvailable = 0;
 		gameObject.rigidbody.velocity = new Vector3(0, 0, 0);
