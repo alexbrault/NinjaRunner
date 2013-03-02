@@ -86,9 +86,9 @@ public class networkController : MonoBehaviour
 	
 	void OnConnectedToServer()
 	{	
-		//networkView.RPC("SendAllPlayers", RPCMode.Server);
+		networkView.RPC("SendAllPlayers", RPCMode.Server);
 	}
-	/*
+	
 	[RPC]
 	void SendAllPlayers(NetworkMessageInfo info)
 	{
@@ -106,7 +106,7 @@ public class networkController : MonoBehaviour
 				}
 	    	}
 		}
-	}*/
+	}
 	
     void OnFailedToConnect(NetworkConnectionError error) 
 	{
