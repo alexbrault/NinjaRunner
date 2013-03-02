@@ -2,6 +2,9 @@ using UnityEngine;
 using System.Collections;
 using System.Net;
 using System.Net.Sockets;
+using System.Xml.Serialization;
+using System.Text;
+using System.IO;
 
 enum state 
 {
@@ -33,11 +36,26 @@ public class networkController : MonoBehaviour
 	
 	class MyState
 	{
-		public double timestamp;
 		public Vector3 pos;
 		public Vector3 velocity;
 		public Quaternion rot;
 		public Vector3 angularVelocity;
+		
+		static XmlSerializer serializer = new XmlSerializer(typeof(MyState));
+
+	    public string Serialize()
+	    {
+	        StringBuilder builder = new StringBuilder();
+
+	        serializer.Serialize(System.Xml.XmlWriter.Create(builder), this);
+
+	        return builder.ToString();
+	    }
+
+	    public static MyState Deserialize(string serializedData)
+	    {
+	        return serializer.Deserialize(new StringReader(serializedData)) as MyState;
+	    }
 	}
 	
 	void Start () 
@@ -64,9 +82,11 @@ public class networkController : MonoBehaviour
 					s.rot = localPlayerObject.rigidbody.rotation;
 					s.angularVelocity = localPlayerObject.rigidbody.angularVelocity;
 					
+					string serialized = s.Serialize();
+					
 					if(Network.isClient)
 					{
-						networkView.RPC("ClientUpdatePlayer",RPCMode.Server,s);
+						networkView.RPC("ClientUpdatePlayer",RPCMode.Server,serialized);
 					}
 					/*
 					else
@@ -155,21 +175,22 @@ public class networkController : MonoBehaviour
     }
 	
 	[RPC]
-	void ClientUpdatePlayer(MyState s, NetworkMessageInfo info)
+	void ClientUpdatePlayer(string serialized, NetworkMessageInfo info)
 	{
 		
 		NetworkPlayer p = info.sender;
-		networkView.RPC("ServerUpdatePlayer",RPCMode.Others, p, s);
+		networkView.RPC("ServerUpdatePlayer",RPCMode.Others, p, serialized);
 		
-		ServerUpdatePlayer(p, s);
+		ServerUpdatePlayer(p, serialized);
 	}
 	
 	[RPC]
-	void ServerUpdatePlayer(NetworkPlayer p, MyState s)
+	void ServerUpdatePlayer(NetworkPlayer p, string serialized)
 	{
 		if(players.ContainsKey(p))
 		{
 			GameObject gop = (GameObject)players[p];
+			MyState s = MyState.Deserialize(serialized);
 			
 			gop.rigidbody.position = s.pos;
 			gop.rigidbody.velocity = s.velocity;
