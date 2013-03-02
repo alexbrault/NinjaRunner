@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 
 public class SegmentLoader : MonoBehaviour {
+	public Transform boundary;
 	private List<Transform> segments;
 	private System.Random random = new System.Random();
 	private float nextSegmentX = 0;
@@ -30,6 +31,7 @@ public class SegmentLoader : MonoBehaviour {
 		AddSegmentToLevel();
 		AddSegmentToLevel();
 		AddSegmentToLevel();
+		AddBoundary();
 	}
 	
 	void OnDestroy() {
@@ -40,6 +42,15 @@ public class SegmentLoader : MonoBehaviour {
 
 	public float AddSegmentToLevel() {
 		var segmentTemplate = GetRandomSegmentTemplate();
+		var segmentWidth = segmentTemplate.GetComponent<MirrorableSegment>().SegmentWidth;
+		Transform mirror = Instantiate(segmentTemplate) as Transform;
+		mirror.GetComponent<MirrorableSegment>().PlaceSegments(nextSegmentX);
+		nextSegmentX += segmentWidth;
+		return segmentWidth;
+	}
+	
+	public float AddBoundary() {
+		var segmentTemplate = boundary;
 		var segmentWidth = segmentTemplate.GetComponent<MirrorableSegment>().SegmentWidth;
 		Transform mirror = Instantiate(segmentTemplate) as Transform;
 		mirror.GetComponent<MirrorableSegment>().PlaceSegments(nextSegmentX);

@@ -166,6 +166,10 @@ public class NinjaController : MonoBehaviour {
 			
 			StartCoroutine(FallOffWall());
 		}
+		
+		if (contact.gameObject.tag == "Water") {
+			Respawn();
+		}
 	}
 	
 	IEnumerator FallOffWall()
