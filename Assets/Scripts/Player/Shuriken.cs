@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Shuriken : MonoBehaviour {
 
+	private bool rotate = true;
+	
 	// Use this for initialization
 	void Start () {
 	
@@ -10,8 +12,8 @@ public class Shuriken : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
-		transform.RotateAroundLocal(new Vector3(0, 0, 1), 50);
+		if(rotate)
+			transform.RotateAroundLocal(new Vector3(0, 0, 1), 50);
 	}
 	
 	void OnCollisionEnter(Collision collision)
@@ -20,6 +22,7 @@ public class Shuriken : MonoBehaviour {
 		Destroy(gameObject.rigidbody);
 		gameObject.renderer.enabled = false;
 		
+		rotate = false;
 		StartCoroutine(DestroyShuriken());
 	}
 	
