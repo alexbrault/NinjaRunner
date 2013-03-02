@@ -25,6 +25,11 @@ public class SegmentLoader : MonoBehaviour {
 		if (_instance == null) {
 			_instance = this;
 		}
+		
+		AddSegmentToLevel();
+		AddSegmentToLevel();
+		AddSegmentToLevel();
+		AddSegmentToLevel();
 	}
 	
 	void OnDestroy() {
@@ -36,7 +41,13 @@ public class SegmentLoader : MonoBehaviour {
 	public float AddSegmentToLevel() {
 		var segmentTemplate = GetRandomSegmentTemplate();
 		var segmentWidth = segmentTemplate.GetComponent<Segment>().SegmentWidth;
-		Instantiate(segmentTemplate, NextSegmentLocation(segmentWidth), Quaternion.identity);
+		
+		Vector3 position = NextSegmentLocation(segmentWidth);
+		Instantiate(segmentTemplate, position, Quaternion.identity);
+		
+		position.x = -position.x - segmentWidth;
+		Instantiate(segmentTemplate, position, Quaternion.identity);
+		
 		return segmentWidth;
 	}
 
