@@ -41,7 +41,7 @@ public class NinjaController : MonoBehaviour {
 	
 	public GameObject Shuriken;
 	
-	private bool canJump = true;
+	private int jumpsAvailable = 2;
 	private bool canMove = true;
 	private bool onWall = false;
 	private bool canShoot = true;
@@ -63,15 +63,15 @@ public class NinjaController : MonoBehaviour {
 	void Update () {
 		if (canMove) {
 			Run ();
-			
-			if(canJump && InputEx.GetButtonDown(KeyNames[Player, KeyID.Jump]))
-				Jump();
 		}
+		
+		if(jumpsAvailable != 0 && InputEx.GetButtonDown(KeyNames[Player, KeyID.Jump]))
+			Jump();
 		
 		if(onWall && InputEx.GetButtonDown(KeyNames[Player, KeyID.Jump]))
 			WallJump();
 		
-		if(!canJump && canShoot && InputEx.GetButtonDown(KeyNames[Player, KeyID.Shoot]))
+		if(canShoot && InputEx.GetButtonDown(KeyNames[Player, KeyID.Shoot]))
 			StartCoroutine(ShootShurikens());
 	}
 	
@@ -101,14 +101,16 @@ public class NinjaController : MonoBehaviour {
 	
 	void Jump()
 	{
-		gameObject.rigidbody.AddForce(Vector3.up * JumpForce * 100);
-		canJump = false;
+		gameObject.rigidbody.AddForce(Vector3.up * JumpForce * 100 * jumpsAvailable / 2);
+		canMove = true;
+		jumpsAvailable--;
 	}
 	
 	void WallJump()
 	{
 		gameObject.rigidbody.AddForce(new Vector3(nextWallJumpX, 1, 0) * WallJumpForce * 100);
-		canJump = false;
+		jumpsAvailable = 1;
+		canMove = false;
 		onWall = false;
 	}
 	
@@ -155,11 +157,11 @@ public class NinjaController : MonoBehaviour {
 
 		if(contact.gameObject.tag == "Floor")
 		{
-			canJump = true;
+			jumpsAvailable = 2;
 			canMove = true;
 		}
 		
-		if(contact.gameObject.tag == "Wall" && canJump == false)
+		if(contact.gameObject.tag == "Wall" && jumpsAvailable != 2)
 		{
 			canMove = false;
 			onWall = true;
@@ -190,7 +192,7 @@ public class NinjaController : MonoBehaviour {
 	public void Respawn() {
 		transform.position = currentSegment.SafeSpawn;
 		canMove = false;
-		canJump = false;
+		jumpsAvailable = 0;
 		gameObject.rigidbody.velocity = new Vector3(0, 0, 0);
 		gameObject.rigidbody.useGravity = true;
 	}
