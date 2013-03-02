@@ -73,6 +73,11 @@ public class NinjaController : MonoBehaviour {
 			StartCoroutine(ShootShurikens());
 	}
 	
+	public bool IsJumping()
+	{
+		return jumpsAvailable < 2;
+	}
+	
 	void Run()
 	{
 		if(InputEx.GetButton(KeyNames[Player, KeyID.Left]))
