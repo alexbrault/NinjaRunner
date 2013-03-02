@@ -8,12 +8,14 @@ public class NinjaController : MonoBehaviour {
 	public int RunAcceleration;
 	public int MaxSpeed;
 	public NetworkPlayer netPlayer;	
-	
+		
 	public enum PlayerID : int {
 		Player1 = 0,
 		Player2 = 1,
 		PlayerNone = 2,
 	}
+	
+	private Segment currentSegment;
 	
 	public PlayerID player;
 	public int Player {
@@ -179,5 +181,17 @@ public class NinjaController : MonoBehaviour {
 	    yield return new WaitForSeconds(1);
 		gameObject.rigidbody.useGravity = true;
 		onWall = false;
+	}
+	
+	private void EnteredSegment(Segment s) {
+		currentSegment = s;
+	}
+	
+	public void Respawn() {
+		transform.position = currentSegment.SafeSpawn;
+		canMove = false;
+		canJump = false;
+		gameObject.rigidbody.velocity = new Vector3(0, 0, 0);
+		gameObject.rigidbody.useGravity = true;
 	}
 }
