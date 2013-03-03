@@ -5,6 +5,7 @@ public class ScoreGUI : MonoBehaviour {
 	
 	public int noPlayer = 1;
 	public Font textFont;
+	public Color playerScoreColor;
 	
 	private Camera cam;
 	private GUIStyle textStyle;
@@ -18,7 +19,12 @@ public class ScoreGUI : MonoBehaviour {
 		textStyle = new GUIStyle();
 		textStyle.font = textFont;
 		textStyle.fontSize = 28;
-		textStyle.normal.textColor = Color.red;
+		
+		if(noPlayer == 0)
+			textStyle.normal.textColor = Color.red;
+		else
+			textStyle.normal.textColor = Color.green;
+			//textStyle.normal.textColor = playerScoreColor;
 	}
 	
  	void OnGUI ()
