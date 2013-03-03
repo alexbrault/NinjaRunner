@@ -13,7 +13,7 @@ public class ScoreGUI : MonoBehaviour {
 	{
 		noPlayer = this.gameObject.GetComponent<NinjaController>().Player;
 		
-		cam = gameObject.transform.FindChild("Camera").gameObject.camera;
+		//cam = gameObject.transform.FindChild("Camera").gameObject.camera;
 		
 		textStyle = new GUIStyle();
 		textStyle.font = textFont;
@@ -23,7 +23,7 @@ public class ScoreGUI : MonoBehaviour {
 	
  	void OnGUI ()
 	{		
-		GUI.Label( new Rect(20, Mathf.Abs(cam.pixelRect.y - cam.pixelHeight) + 10, 200, 50),
+		GUI.Label( new Rect(20, 10 + noPlayer*(Screen.height/2), 200, 50),
 				"Player " + (noPlayer + 1) + " : " + ScoreManager.Instance.GetScore(noPlayer), textStyle);
 	}
 }
