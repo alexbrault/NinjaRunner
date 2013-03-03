@@ -67,6 +67,9 @@ public class GameManager : MonoBehaviour {
 				Player1.position = new Vector3(-5, 0, 0);
 				Player2.position = new Vector3(5, 0, 0);
 				
+				Player1.collider.enabled = false;
+				Player2.collider.enabled = false;
+				
 				Player1.transform.parent = battle.transform;
 				Player2.transform.parent = battle.transform;
 				
