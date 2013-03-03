@@ -11,7 +11,7 @@ public class PatrolPath : MonoBehaviour {
 		Gizmos.color = Color.green;	
 		
 		Gizmos.DrawLine(patrolPoints[0].position, patrolPoints[1].position);
-		Gizmos.DrawCube(patrolPoints[0].position, Vector3.one);
-		Gizmos.DrawCube(patrolPoints[1].position, Vector3.one);
+		Gizmos.DrawCube(patrolPoints[0].position, Vector3.one*0.1f);
+		Gizmos.DrawCube(patrolPoints[1].position, Vector3.one*0.1f);
 	}
 }

@@ -9,7 +9,7 @@ public class MirrorableSegment : MonoBehaviour {
 	
 	public float SegmentWidth { get { return Left.GetComponent<Segment>().SegmentWidth; } }
 	
-	private void Start() {   
+	private void Start() {
 		if (parent == null) {
 			parent = GameObject.Find("Globals").transform;
 		}
