@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour {
 	
 	public Transform Player1;
 	public Transform Player2;
+	public Transform AudioManager;
 	
 	private float player1StartX;
 	private float player2StartX;
@@ -55,6 +56,7 @@ public class GameManager : MonoBehaviour {
 				
 				GameObject.DontDestroyOnLoad(Player1);
 				GameObject.DontDestroyOnLoad(Player2);
+				GameObject.DontDestroyOnLoad(AudioManager);
 				
 				Destroy(Player1.rigidbody);
 				Destroy(Player2.rigidbody);
