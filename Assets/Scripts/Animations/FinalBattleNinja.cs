@@ -57,7 +57,7 @@ public class FinalBattleNinja : MonoBehaviour {
 			
 			if(looser)
 			{				
-				transform.RotateAroundLocal(new Vector3(0,0,-1), 45);
+				transform.rotation = Quaternion.Euler(0, 90, 270);
 			}
 		}
 		
@@ -67,7 +67,7 @@ public class FinalBattleNinja : MonoBehaviour {
 			
 			if(looser)
 			{
-				transform.RotateAroundLocal(new Vector3(0,0,-1), -45);
+				transform.rotation = Quaternion.Euler(0, 270, 90);
 			}
 		}
 	}

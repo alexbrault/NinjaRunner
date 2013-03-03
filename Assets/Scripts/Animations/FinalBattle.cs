@@ -76,7 +76,6 @@ public class FinalBattle : MonoBehaviour {
 		yield return new WaitForSeconds(0.2f); // Like, HUGE bug fix important
 		SoundManager.Instance.PlaySound(SoundManager.soundEnum.DRAW_SWORD);		
 		
-		
 		p1Dash.GetComponent<ParticleSystem>().enableEmission = true;
 		player2.renderer.enabled = false;
 		
@@ -154,7 +153,7 @@ public class FinalBattle : MonoBehaviour {
 		SoundManager.Instance.gameObject.GetComponent<AudioSource>().Stop();
 		
 		swordFight.GetComponent<SwordFight>().PlayKillAnimation();
-		looser.transform.RotateAroundLocal(new Vector3(0, 0, -1), 90);
+		//looser.transform.RotateAroundLocal(new Vector3(0, 0, -1), 90);
 		blood.GetComponent<ParticleSystem>().enableEmission = true;
 		
 		yield return new WaitForSeconds(1.5f);
