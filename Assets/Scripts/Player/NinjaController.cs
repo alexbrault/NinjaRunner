@@ -15,7 +15,7 @@ public class NinjaController : MonoBehaviour {
 	private List<CollisionListener> listeners;
 	
 	private int shootShurikenCount = 0;
-	private bool shooting = true;
+	private bool shooting = false;
 		
 	public enum PlayerID : int {
 		Player1 = 0,
