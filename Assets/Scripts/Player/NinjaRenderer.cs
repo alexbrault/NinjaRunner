@@ -60,7 +60,7 @@ public class NinjaRenderer : MonoBehaviour {
 		sheet.AddFrame("OnWallRight", 512, 384, 128, 128);
 		
 		sheet.CreateAnimation("OnWallLeft", 200);
-		sheet.AddFrame("OnWallRight", 640, 384, 128, 128);
+		sheet.AddFrame("OnWallLeft", 640, 384, 128, 128);
 		
 		sheet.CreateAnimation("WallJumpLeft", 200);
 		sheet.AddFrame("WallJumpLeft", 512, 512, 128, 128);

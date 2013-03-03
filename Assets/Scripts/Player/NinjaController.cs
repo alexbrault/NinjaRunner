@@ -167,6 +167,16 @@ public class NinjaController : MonoBehaviour {
 		canMove = false;
 		onWall = false;
 		rigidbody.useGravity = true;
+		
+		if(nextWallJumpX > 0)
+		{
+			spriteRenderer.PlayAnimation("WallJumpRight");
+		}
+		
+		else
+		{
+			spriteRenderer.PlayAnimation("WallJumpLeft");
+		}
 	}
 	
 	IEnumerator ShootShurikens()
@@ -226,6 +236,16 @@ public class NinjaController : MonoBehaviour {
 		
 		if(contact.gameObject.tag == "Wall" && jumpsAvailable != 1)
 		{
+			if(collision.transform.position.x > transform.position.x)
+			{
+				spriteRenderer.PlayAnimation("OnWallLeft");
+			}
+			
+			else
+			{
+				spriteRenderer.PlayAnimation("OnWallRight");
+			}
+			
 			canMove = false;
 			onWall = true;
 			rigidbody.velocity = new Vector3(0, 0, 0);
@@ -250,6 +270,16 @@ public class NinjaController : MonoBehaviour {
 	    yield return new WaitForSeconds(2);
 		rigidbody.useGravity = true;
 		onWall = false;
+		
+		if(player == PlayerID.Player1)
+		{
+			spriteRenderer.PlayAnimation("IdleRight");
+		}
+		
+		else
+		{
+			spriteRenderer.PlayAnimation("IdleLeft");
+		}
 	}
 	
 	private void EnteredSegment(Segment s) {

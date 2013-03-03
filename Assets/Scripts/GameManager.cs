@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour {
 	
 	public Transform Player1;
 	public Transform Player2;
-	public float EndGameThreshold = 20;
+	public float EndGameThreshold;
 	
 	private float player1StartX;
 	private float player2StartX;
@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour {
 	
 		player1StartX = Player1.position.x;
 		player2StartX = Player2.position.x;
+		
+		EndGameThreshold = 0.2f;
 	}
 	
 	// Update is called once per frame
