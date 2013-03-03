@@ -59,7 +59,7 @@ public class Patrol : MonoBehaviour {
 		if(directionX > 0)
 			spriteRenderer.PlayAnimation("IdleRight");
 		
-		if(rdirectionX < 0)
+		if(directionX < 0)
 			spriteRenderer.PlayAnimation("IdleLeft");
 		
 		yield return new WaitForSeconds(3);
