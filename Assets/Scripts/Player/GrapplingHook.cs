@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(LineRenderer))]
 public class GrapplingHook : MonoBehaviour {
 	
 	bool grappled = false;
@@ -10,9 +11,11 @@ public class GrapplingHook : MonoBehaviour {
 	float grapplingLength;
 	
 	int player;
+	private LineRenderer hookLine;
 	
 	// Use this for initialization
 	void Start () {
+		hookLine = GetComponent<LineRenderer>();
 		player = gameObject.GetComponent<NinjaController>().Player;
 	}
 	
@@ -58,6 +61,7 @@ public class GrapplingHook : MonoBehaviour {
 			pos.y = -Mathf.Abs (Mathf.Sin(angle)) * grapplingLength + grappledTarget.position.y;
 			
 			transform.position = pos;
+			hookLine.SetPosition(1, pos);
 		}
 	}
 	
@@ -65,6 +69,8 @@ public class GrapplingHook : MonoBehaviour {
 	{
 		grappled = true;
 		grappledTarget = collider.gameObject.transform;
+		hookLine.enabled = true;
+		hookLine.SetPosition(0, grappledTarget.position);
 		
 		Debug.Log("Player : " + gameObject.transform.position);
 		Debug.Log("Grappled : " + grappledTarget);
@@ -81,6 +87,7 @@ public class GrapplingHook : MonoBehaviour {
 	
 	void Ungrapple()
 	{
+		hookLine.enabled = false;
 		grappled = false;
 		GetComponent<NinjaController>().enabled = true;
 		rigidbody.velocity = Vector3.zero;

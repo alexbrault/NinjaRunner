@@ -43,7 +43,7 @@ public class NinjaController : MonoBehaviour {
 	public static string[,] KeyNames = {
 									{"P1Left", "P1Right", "P1Jump", "P1Shoot", "P1Grappling"}, 
 									{"P2Left", "P2Right", "P2Jump", "P2Shoot", "P2Grappling"}, 
-									{"null", "null", "null", "null"},
+									{"null", "null", "null", "null", "null"},
 								};
 	private int facing = 1;
 	public GameObject Shuriken;
@@ -202,8 +202,10 @@ public class NinjaController : MonoBehaviour {
 
 		if(contact.gameObject.tag == "Floor")
 		{
-			jumpsAvailable = 1;
-			canMove = true;
+			if (collision.relativeVelocity.y > 0){
+				jumpsAvailable = 1;
+				canMove = true;
+			}
 		}
 		
 		if(contact.gameObject.tag == "Wall" && jumpsAvailable != 1)
