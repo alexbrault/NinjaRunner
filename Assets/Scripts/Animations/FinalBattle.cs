@@ -7,8 +7,8 @@ public class FinalBattle : MonoBehaviour {
 	public GameObject player2;
 	public GameObject winner;
 	public GameObject looser;
-	public int maxDeltaScore;
-	public int deltaScore;
+	public float maxDeltaScore;
+	public float deltaScore;
 	public Font textFont;
 	
 	private GameObject p1Dash;
