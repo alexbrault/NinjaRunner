@@ -9,6 +9,7 @@ public class FinalBattle : MonoBehaviour {
 	public GameObject looser;
 	public int maxDeltaScore;
 	public int deltaScore;
+	public Font textFont;
 	
 	private GameObject p1Dash;
 	private GameObject p2Dash;
@@ -24,6 +25,9 @@ public class FinalBattle : MonoBehaviour {
 	private float nextBloodTrace = 0;
 	
 	private System.Random random = new System.Random();
+	
+	private string topText = "";
+	private string bottomText = "";
 	
 	// Use this for initialization
 	void Start () {
@@ -136,5 +140,20 @@ public class FinalBattle : MonoBehaviour {
 		swordFight.GetComponent<SwordFight>().PlayKillAnimation();
 		looser.transform.RotateAroundLocal(new Vector3(0, 0, -1), 90);
 		blood.GetComponent<ParticleSystem>().enableEmission = true;
+		
+		yield return new WaitForSeconds(1.5f);
+		topText = "PLAYER " + ((int)winner.GetComponent<FinalBattleNinja>().player + 1);
+		yield return new WaitForSeconds(1.5f);
+		bottomText = "WINS";
+		
+	}
+	
+	private void OnGUI() {
+		GUIStyle textStyle = new GUIStyle();
+		textStyle.alignment = TextAnchor.MiddleCenter;
+		textStyle.fontSize = 64;
+		textStyle.font = textFont;
+		GUI.Label (new Rect(0, 10, Screen.width, 70), topText, textStyle);
+		GUI.Label (new Rect(0, Screen.height - 80, Screen.width, 70), bottomText, textStyle);
 	}
 }
