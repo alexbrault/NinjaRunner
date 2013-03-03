@@ -219,6 +219,7 @@ public class NinjaController : MonoBehaviour {
 	
 	void OnCollisionEnter(Collision collision)
 	{
+		shooting = false;
 		foreach(CollisionListener listener in listeners)
 		{
 			listener.Notify(gameObject.collider, collision.collider);
