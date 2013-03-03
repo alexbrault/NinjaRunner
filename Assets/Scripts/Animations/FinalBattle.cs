@@ -73,7 +73,7 @@ public class FinalBattle : MonoBehaviour {
 	IEnumerator Player1Dash()
 	{
 		yield return new WaitForSeconds(0.2f); // Like, HUGE bug fix important
-		AudioManager.Instance.PlaySound(AudioManager.soundEnum.DRAW_SWORD);		
+		SoundManager.Instance.PlaySound(SoundManager.soundEnum.DRAW_SWORD);		
 		
 		
 		p1Dash.GetComponent<ParticleSystem>().enableEmission = true;
@@ -87,7 +87,7 @@ public class FinalBattle : MonoBehaviour {
 		
 		yield return new WaitForSeconds(3);
 		StartCoroutine(Player2Dash ());
-		AudioManager.Instance.PlaySound(AudioManager.soundEnum.DRAW_SWORD);		
+		SoundManager.Instance.PlaySound(SoundManager.soundEnum.DRAW_SWORD);		
 						
 		player1.transform.position = player1BattlePos;
 		player1.transform.localScale = new Vector3(0.5f, 1, 1);
@@ -122,8 +122,8 @@ public class FinalBattle : MonoBehaviour {
 		inBattle = true;
 		nextBloodTrace = random.Next(2, 12) / 10.0f;
 		
-		AudioManager.Instance.gameObject.GetComponent<AudioSource>().loop = true;			
-		AudioManager.Instance.PlaySound(AudioManager.soundEnum.SWORD_FIGHT);		
+		SoundManager.Instance.gameObject.GetComponent<AudioSource>().loop = true;			
+		SoundManager.Instance.PlaySound(SoundManager.soundEnum.SWORD_FIGHT);		
 		
 		float seconds = Mathf.Log(maxDeltaScore - deltaScore);
 		
@@ -143,8 +143,8 @@ public class FinalBattle : MonoBehaviour {
 		
 		inBattle = false;
 
-		AudioManager.Instance.gameObject.GetComponent<AudioSource>().loop = false;
-		AudioManager.Instance.gameObject.GetComponent<AudioSource>().Stop();
+		SoundManager.Instance.gameObject.GetComponent<AudioSource>().loop = false;
+		SoundManager.Instance.gameObject.GetComponent<AudioSource>().Stop();
 		
 		swordFight.GetComponent<SwordFight>().PlayKillAnimation();
 		looser.transform.RotateAroundLocal(new Vector3(0, 0, -1), 90);
