@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour {
 	public Transform Player1;
 	public Transform Player2;
 	public Transform AudioManager;
+	public float EndGameThreshold = 20;
 	
 	private float player1StartX;
 	private float player2StartX;
@@ -26,7 +27,7 @@ public class GameManager : MonoBehaviour {
 	
 		if(!inAnim)
 		{
-			if(Player2.position.x - Player1.position.x < 60)
+			if(Player2.position.x - Player1.position.x < EndGameThreshold)
 			{
 				int player1Score = gameObject.GetComponent<ScoreManager>().playerScore[0];
 				int player2Score = gameObject.GetComponent<ScoreManager>().playerScore[1];
