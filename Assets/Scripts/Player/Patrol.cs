@@ -10,7 +10,15 @@ public class Patrol : MonoBehaviour {
 	public int maxHealth = 3;
 	private int health;
 	
+	private NinjaRenderer spriteRenderer;
+	
+	public void Start()
+	{
+		spriteRenderer = (NinjaRenderer)gameObject.GetComponent<NinjaRenderer>();
+	}
+	
 	public void StartPatrol(Transform patrol) {	
+		
 		health = maxHealth;
 		patrolPoints = new Transform[2];
 		patrolPoints[0] = patrol.GetChild(0);
@@ -29,6 +37,12 @@ public class Patrol : MonoBehaviour {
 	void Update () {
 	
 		rigidbody.velocity = new Vector3(directionX, 0, 0) * WalkingSpeed;
+		
+		if(rigidbody.velocity.x > 0)
+			spriteRenderer.PlayAnimation("WalkRight");
+		
+		if(rigidbody.velocity.x < 0)
+			spriteRenderer.PlayAnimation("WalkLeft");
 	}
 	
 	void OnCollisionEnter(Collision collision)
@@ -42,6 +56,12 @@ public class Patrol : MonoBehaviour {
 	
 	IEnumerator Wait()
 	{
+		if(directionX > 0)
+			spriteRenderer.PlayAnimation("IdleRight");
+		
+		if(rdirectionX < 0)
+			spriteRenderer.PlayAnimation("IdleLeft");
+		
 		yield return new WaitForSeconds(3);
 		
 		directionX = -directionX;

@@ -7,7 +7,8 @@ public class NinjaRenderer : MonoBehaviour {
 	public enum Player
 	{
 		PLAYER_1,
-		PLAYER_2
+		PLAYER_2,
+		ENEMY
 	}
 	
 	public Player player;
@@ -18,6 +19,9 @@ public class NinjaRenderer : MonoBehaviour {
 		
 		if(player == Player.PLAYER_1)
 			sheet.Load("Sprites/NinjaVersion2");
+		
+		else if(player == Player.PLAYER_2)
+			sheet.Load("Sprites/Ninja#2Version2");
 		
 		else
 			sheet.Load("Sprites/Ninja#2Version2");
@@ -67,6 +71,32 @@ public class NinjaRenderer : MonoBehaviour {
 		sheet.AddFrame("RunLeft", 384, 640, 128, 128);
 		sheet.AddFrame("RunLeft", 384, 512, 128, 128);
 		sheet.AddFrame("RunLeft", 384, 384, 128, 128);
+		
+		
+		
+		sheet.CreateAnimation("WalkRight", 500);
+		sheet.AddFrame("WalkRight", 256, 256, 128, 128);
+		sheet.AddFrame("WalkRight", 256, 384, 128, 128);
+		sheet.AddFrame("WalkRight", 256, 512, 128, 128);
+		sheet.AddFrame("WalkRight", 256, 640, 128, 128);
+		sheet.AddFrame("WalkRight", 256, 768, 128, 128);
+		sheet.AddFrame("WalkRight", 256, 896, 128, 128);
+		sheet.AddFrame("WalkRight", 256, 768, 128, 128);
+		sheet.AddFrame("WalkRight", 256, 640, 128, 128);
+		sheet.AddFrame("WalkRight", 256, 512, 128, 128);
+		sheet.AddFrame("WalkRight", 256, 384, 128, 128);
+		
+		sheet.CreateAnimation("WalkLeft", 500);
+		sheet.AddFrame("WalkLeft", 384, 256, 128, 128);
+		sheet.AddFrame("WalkLeft", 384, 384, 128, 128);
+		sheet.AddFrame("WalkLeft", 384, 512, 128, 128);
+		sheet.AddFrame("WalkLeft", 384, 640, 128, 128);
+		sheet.AddFrame("WalkLeft", 384, 768, 128, 128);
+		sheet.AddFrame("WalkLeft", 384, 896, 128, 128);
+		sheet.AddFrame("WalkLeft", 384, 768, 128, 128);
+		sheet.AddFrame("WalkLeft", 384, 640, 128, 128);
+		sheet.AddFrame("WalkLeft", 384, 512, 128, 128);
+		sheet.AddFrame("WalkLeft", 384, 384, 128, 128);
 		
 		
 		
