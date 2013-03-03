@@ -34,11 +34,12 @@ public class NinjaController : MonoBehaviour {
 		public const int Right = 1;
 		public const int Jump = 2;
 		public const int Shoot = 3;
+		public const int Grappling = 4;
 	}
 	
-	public string[,] KeyNames = {
-									{"P1Left", "P1Right", "P1Jump", "P1Shoot"}, 
-									{"P2Left", "P2Right", "P2Jump", "P2Shoot"}, 
+	public static string[,] KeyNames = {
+									{"P1Left", "P1Right", "P1Jump", "P1Shoot", "P1Grappling"}, 
+									{"P2Left", "P2Right", "P2Jump", "P2Shoot", "P2Grappling"}, 
 									{"null", "null", "null", "null"},
 								};
 	private int facing = 1;

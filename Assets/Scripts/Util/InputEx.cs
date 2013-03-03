@@ -11,10 +11,12 @@ public static class InputEx {
 		Keys["P1Right"] = KeyCode.D;
 		Keys["P1Jump"] = KeyCode.Space;
 		Keys["P1Shoot"] = KeyCode.F;
+		Keys["P1Grappling"] = KeyCode.G;
 		Keys["P2Left"] = KeyCode.LeftArrow;
 		Keys["P2Right"] = KeyCode.RightArrow;
 		Keys["P2Jump"] = KeyCode.Keypad0;
 		Keys["P2Shoot"] = KeyCode.Keypad1;
+		Keys["P2Grappling"] = KeyCode.Keypad2;
 		Keys["null"] = KeyCode.None;
 	}
 	

@@ -3,31 +3,40 @@ using System.Collections;
 
 public class GrapplingHook : MonoBehaviour {
 	
-	Transform grappledTarget = null;
-	int xForce = 0;
 	bool grappled = false;
+	Transform grappledTarget;
+	
+	float angle;
+	float grapplingLength;
+	
+	int player;
 	
 	// Use this for initialization
 	void Start () {
+		player = gameObject.GetComponent<NinjaController>().Player;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
-		if(grappledTarget != null)
+		
+		if(grappled)
 		{
 			ComputeGrappled();
 		}
 		
-		else if(Input.GetKeyDown(KeyCode.G))
+		else if(InputEx.GetButton(NinjaController.KeyNames[player, NinjaController.KeyID.Grappling]))
 		{
 			if(gameObject.GetComponent<NinjaController>().IsJumping())
 			{
-				Collider[] colliders = Physics.OverlapSphere(gameObject.transform.position, 30);
+				Collider[] colliders = Physics.OverlapSphere(gameObject.transform.position, 2);
 				
 				foreach(Collider collider in colliders)
 				{
-					Grapple(collider);
+					if(collider.gameObject.tag == "GrapplingHook" && CanGrapple(collider))
+					{
+						Grapple(collider);
+						break;
+					}
 				}
 			}
 		}
@@ -35,63 +44,78 @@ public class GrapplingHook : MonoBehaviour {
 	
 	void ComputeGrappled()
 	{
-		float speed = xForce * Time.deltaTime;
-		Debug.Log (speed);
-		
-		if(xForce > 0)
+		if(InputEx.GetButton(NinjaController.KeyNames[player, NinjaController.KeyID.Grappling]))
 		{
-			speed -= 0.5f;
-			
-			if(speed < 0)
-				xForce = -100;
-			
-			gameObject.transform.RotateAround(grappledTarget.position, new Vector3(0, 0, -1), -speed);
+			Ungrapple();
 		}
 		
 		else
 		{
-			speed += 0.5f;
+			angle += 0.05f;
 			
-			if(speed > 0)
-				xForce = 100;
+			Vector3 pos = transform.position;
+			pos.x = Mathf.Cos(angle) * grapplingLength + grappledTarget.position.x;
+			pos.y = -Mathf.Abs (Mathf.Sin(angle)) * grapplingLength + grappledTarget.position.y;
 			
-			gameObject.transform.RotateAround(grappledTarget.position, new Vector3(0, 0, -1), speed);
+			transform.position = pos;
 		}
-		
-		
-		//float angle = Vector3.Angle (gameObject.transform.up, gameObject.transform.up - (grappledTarget.transform.position - gameObject.transform.position));		
-		//gameObject.transform.RotateAroundLocal(new Vector3(0, 0, -1), angle);
 	}
 	
 	void Grapple(Collider collider)
 	{
-		if(collider.gameObject.tag == "GrapplingHook")
-		{
-			if(gameObject.rigidbody.velocity.x > 0 && gameObject.transform.position.x < collider.transform.position.x)
-			{
-				gameObject.GetComponent<NinjaController>().enabled = false;
-				gameObject.rigidbody.useGravity = false;
-				gameObject.rigidbody.velocity = Vector3.zero;
-				
-				float angle = Vector3.Angle (Vector3.up, collider.transform.position - gameObject.transform.position);
-				
-				gameObject.transform.RotateAroundLocal(new Vector3(0, 0, -1), angle);
-				grappledTarget = collider.transform;
-				xForce = 100;
-			}
+		grappled = true;
+		grappledTarget = collider.gameObject.transform;
+		
+		Debug.Log("Player : " + gameObject.transform.position);
+		Debug.Log("Grappled : " + grappledTarget);
+		
+		GetComponent<NinjaController>().enabled = false;
+		rigidbody.velocity = Vector3.zero;
+		rigidbody.angularVelocity = Vector3.zero;
+		rigidbody.useGravity = false;
+		gameObject.collider.enabled = false;
+		
+		angle = Vector3.Angle(-collider.transform.up, grappledTarget.position - transform.position);
+		grapplingLength = (grappledTarget.position - transform.position).magnitude;
+	}
+	
+	void Ungrapple()
+	{
+		grappled = false;
+		GetComponent<NinjaController>().enabled = true;
+		rigidbody.velocity = Vector3.zero;
+		rigidbody.angularVelocity = Vector3.zero;
+		rigidbody.useGravity = true;
+		gameObject.collider.enabled = true;
+		
+		angle += 0.05f;
 			
-			else if(gameObject.rigidbody.velocity.x < 0 && collider.transform.position.x < gameObject.transform.position.x)
-			{
-				gameObject.GetComponent<NinjaController>().enabled = false;
-				gameObject.rigidbody.useGravity = false;
-				gameObject.rigidbody.velocity = Vector3.zero;
-				
-				float angle = Vector3.Angle (Vector3.up, collider.transform.position - gameObject.transform.position);
-				
-				gameObject.transform.RotateAroundLocal(new Vector3(0, 0, -1), angle);
-				grappledTarget = collider.transform;
-				xForce = -100;
-			}
+		Vector3 pos = transform.position;
+		pos.x = Mathf.Cos(angle) * grapplingLength + grappledTarget.position.x;
+		
+		if(pos.x > transform.position.x)
+		{
+			rigidbody.AddForce(new Vector3(1, 1, 0) * 250);
 		}
+		
+		else
+		{
+			rigidbody.AddForce(new Vector3(-1, 1, 0) * 250);
+		}
+	}
+	
+	bool CanGrapple(Collider collider)
+	{
+		if(gameObject.rigidbody.velocity.x > 0 && gameObject.transform.position.x < collider.transform.position.x)
+		{
+			return true;
+		}
+		
+		if(gameObject.rigidbody.velocity.x < 0 && collider.transform.position.x < gameObject.transform.position.x)
+		{
+			return true;
+		}
+		
+		return false;
 	}
 }
