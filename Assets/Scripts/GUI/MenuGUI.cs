@@ -7,7 +7,7 @@ public class MenuGUI : MonoBehaviour {
 	public Texture2D CursorTexture;
 	public Font textFont;
 	
-	private Rect[] cursorPositions = new Rect[4];
+	private Rect[] cursorPositions = new Rect[5];
 	private Rect cursorTextCoord;
 	private int cursorPosIndex = 0;
 	
@@ -19,6 +19,7 @@ public class MenuGUI : MonoBehaviour {
 		cursorPositions[1] = new Rect(60, 195, CursorTexture.width, CursorTexture.height);
 		cursorPositions[2] = new Rect(60, 275, CursorTexture.width, CursorTexture.height);
 		cursorPositions[3] = new Rect(60, 355, CursorTexture.width, CursorTexture.height);
+		cursorPositions[4] = new Rect(60, 435, CursorTexture.width, CursorTexture.height);
 		
 		textStyle = new GUIStyle();
 		textStyle.font = textFont;
@@ -37,6 +38,8 @@ public class MenuGUI : MonoBehaviour {
 		GUI.Label (new Rect(400, 310, 100, 50), "Network", textStyle);
 		textStyle.normal.textColor = Color.black;
 		GUI.Label (new Rect(400, 390, 100, 50), "Credits", textStyle);
+		textStyle.normal.textColor = Color.black;
+		GUI.Label (new Rect(400, 470, 100, 50), "Quitter", textStyle);
 		
 		GUI.DrawTexture(cursorPositions[cursorPosIndex], CursorTexture);
 	}
@@ -48,7 +51,7 @@ public class MenuGUI : MonoBehaviour {
 			cursorPosIndex--;
 		}
 		
-		if(Input.GetKeyDown(KeyCode.S) && cursorPosIndex < 3)
+		if(Input.GetKeyDown(KeyCode.S) && cursorPosIndex < 4)
 		{
 			cursorPosIndex++;
 		}
@@ -69,6 +72,10 @@ public class MenuGUI : MonoBehaviour {
 				
 			case 3:
 				Application.LoadLevel("Credits");
+				break;
+
+			case 4:
+				Application.Quit();
 				break;
 			}
 		}

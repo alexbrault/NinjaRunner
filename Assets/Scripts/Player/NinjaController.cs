@@ -267,7 +267,7 @@ public class NinjaController : MonoBehaviour {
 	
 	IEnumerator FallOffWall()
 	{
-	    yield return new WaitForSeconds(2);
+	    yield return new WaitForSeconds(1);
 		rigidbody.useGravity = true;
 		onWall = false;
 		
