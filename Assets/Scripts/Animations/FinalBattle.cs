@@ -56,7 +56,7 @@ public class FinalBattle : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		
 		if(inBattle)
 		{
 			timer += Time.deltaTime;
@@ -73,6 +73,8 @@ public class FinalBattle : MonoBehaviour {
 	IEnumerator Player1Dash()
 	{
 		yield return new WaitForSeconds(0.2f); // Like, HUGE bug fix important
+		AudioManager.Instance.PlaySound(AudioManager.soundEnum.DRAW_SWORD);		
+		
 		
 		p1Dash.GetComponent<ParticleSystem>().enableEmission = true;
 		player2.renderer.enabled = false;
@@ -85,7 +87,8 @@ public class FinalBattle : MonoBehaviour {
 		
 		yield return new WaitForSeconds(3);
 		StartCoroutine(Player2Dash ());
-		
+		AudioManager.Instance.PlaySound(AudioManager.soundEnum.DRAW_SWORD);		
+						
 		player1.transform.position = player1BattlePos;
 		player1.transform.localScale = new Vector3(0.5f, 1, 1);
 	}
@@ -119,6 +122,9 @@ public class FinalBattle : MonoBehaviour {
 		inBattle = true;
 		nextBloodTrace = random.Next(2, 12) / 10.0f;
 		
+		AudioManager.Instance.gameObject.GetComponent<AudioSource>().loop = true;			
+		AudioManager.Instance.PlaySound(AudioManager.soundEnum.SWORD_FIGHT);		
+		
 		float seconds = Mathf.Log(maxDeltaScore - deltaScore);
 		
 		if(seconds < 0)
@@ -136,6 +142,9 @@ public class FinalBattle : MonoBehaviour {
 		p2Dash.GetComponent<ParticleSystem>().enableEmission = false;
 		
 		inBattle = false;
+
+		AudioManager.Instance.gameObject.GetComponent<AudioSource>().loop = false;
+		AudioManager.Instance.gameObject.GetComponent<AudioSource>().Stop();
 		
 		swordFight.GetComponent<SwordFight>().PlayKillAnimation();
 		looser.transform.RotateAroundLocal(new Vector3(0, 0, -1), 90);
