@@ -3,8 +3,6 @@ using System.Collections;
 
 public class FinalBattleNinja : MonoBehaviour {
 	
-	Spritesheet sheet;
-	
 	public enum Player
 	{
 		PLAYER_1,
@@ -12,24 +10,57 @@ public class FinalBattleNinja : MonoBehaviour {
 	}
 	
 	public Player player;
+	private NinjaRenderer spriteRenderer;
 	
 	// Use this for initialization
 	void Start () {
-	
-		sheet = new Spritesheet(gameObject);
-		sheet.Load("Sprites/ninja");
-		sheet.CreateAnimation("Idle", 200);
+		spriteRenderer = gameObject.GetComponent<NinjaRenderer>();
 		
 		if(player == Player.PLAYER_1)
-			sheet.AddFrame("Idle", 0, 0, 128, 128);
+		{
+			spriteRenderer.PlayAnimation("IdleRight");
+			transform.RotateAroundLocal(new Vector3(0,0,-1), 45);
+		}
 		
 		else
-			sheet.AddFrame("Idle", 128, 0, 128, 128);
+		{
+			spriteRenderer.PlayAnimation("IdleLeft");
+			transform.RotateAroundLocal(new Vector3(0,0,-1), -45);
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	
-		sheet.Render();
+	}
+	
+	public void UpdateBattleRender()
+	{
+		if(player == Player.PLAYER_1)
+		{
+			spriteRenderer.PlayAnimation("IdleRight");
+			transform.RotateAroundLocal(new Vector3(0,0,-1), -45);
+		}
+		
+		else
+		{
+			spriteRenderer.PlayAnimation("IdleLeft");
+			transform.RotateAroundLocal(new Vector3(0,0,-1), 45);
+		}
+	}
+	
+	public void UpdateFinalRender()
+	{
+		if(player == Player.PLAYER_1)
+		{
+			spriteRenderer.PlayAnimation("IdleRight");
+			transform.RotateAroundLocal(new Vector3(0,0,-1), -45);
+		}
+		
+		else
+		{
+			spriteRenderer.PlayAnimation("IdleLeft");
+			transform.RotateAroundLocal(new Vector3(0,0,-1), 45);
+		}
 	}
 }

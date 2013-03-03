@@ -51,6 +51,7 @@ public class FinalBattle : MonoBehaviour {
 		swordFight.renderer.enabled = false;
 		p1Dash.GetComponent<ParticleSystem>().enableEmission = false;
 		p2Dash.GetComponent<ParticleSystem>().enableEmission = false;
+		
 		StartCoroutine(Player1Dash ());
 	}
 	
@@ -119,6 +120,9 @@ public class FinalBattle : MonoBehaviour {
 	
 	IEnumerator Battle()
 	{
+		player1.GetComponent<FinalBattleNinja>().UpdateBattleRender();
+		player2.GetComponent<FinalBattleNinja>().UpdateBattleRender();
+		
 		inBattle = true;
 		nextBloodTrace = random.Next(2, 12) / 10.0f;
 		
@@ -138,6 +142,9 @@ public class FinalBattle : MonoBehaviour {
 		swordFight.renderer.enabled = true;
 		yield return new WaitForSeconds(seconds);
 		
+		player1.GetComponent<FinalBattleNinja>().UpdateFinalRender();
+		player2.GetComponent<FinalBattleNinja>().UpdateFinalRender();
+		
 		p1Dash.GetComponent<ParticleSystem>().enableEmission = false;
 		p2Dash.GetComponent<ParticleSystem>().enableEmission = false;
 		
@@ -154,7 +161,6 @@ public class FinalBattle : MonoBehaviour {
 		topText = "PLAYER " + ((int)winner.GetComponent<FinalBattleNinja>().player + 1);
 		yield return new WaitForSeconds(1.5f);
 		bottomText = "WINS";
-		
 	}
 	
 	private void OnGUI() {

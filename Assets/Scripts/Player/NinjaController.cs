@@ -13,6 +13,9 @@ public class NinjaController : MonoBehaviour {
 	public const int ForceMod = 10;
 	
 	private List<CollisionListener> listeners;
+	
+	private int shootShurikenCount = 0;
+	private bool shooting = true;
 		
 	public enum PlayerID : int {
 		Player1 = 0,
@@ -105,11 +108,9 @@ public class NinjaController : MonoBehaviour {
 	}
 	
 	void Run()
-	{
-		
-		
+	{		
 		if(InputEx.GetButton(KeyNames[Player, KeyID.Left]))
-		{
+		{			
 			rigidbody.AddForce(Vector3.left * RunAcceleration * ForceMod);
 			facing = -1;
 		}
@@ -131,19 +132,22 @@ public class NinjaController : MonoBehaviour {
 			rigidbody.velocity = newVel;
 		}
 		
-		if(rigidbody.velocity.x > 1)
-			spriteRenderer.PlayAnimation("RunRight");
-		
-		else if(rigidbody.velocity.x < -1)
-			spriteRenderer.PlayAnimation("RunLeft");
-		
-		else
+		if(!shooting)
 		{
-			if(Player == 0)
-				spriteRenderer.PlayAnimation("IdleRight");
+			if(rigidbody.velocity.x > 1)
+				spriteRenderer.PlayAnimation("RunRight");
+			
+			else if(rigidbody.velocity.x < -1)
+				spriteRenderer.PlayAnimation("RunLeft");
 			
 			else
-				spriteRenderer.PlayAnimation("IdleLeft");
+			{
+				if(Player == 0)
+					spriteRenderer.PlayAnimation("IdleRight");
+				
+				else
+					spriteRenderer.PlayAnimation("IdleLeft");
+			}
 		}
 	}
 	
@@ -167,6 +171,16 @@ public class NinjaController : MonoBehaviour {
 	
 	IEnumerator ShootShurikens()
 	{
+		shooting = true;
+		
+		if(transform.rigidbody.velocity.x >= 0)
+			spriteRenderer.PlayAnimation("ThrowShurikenRight");
+		
+		else
+			spriteRenderer.PlayAnimation("ThrowShurikenLeft");
+		
+		spriteRenderer.AddActiveAnimationDelegate(ResumeJump);
+		
 		canShoot = false;
 		
 		Vector3 direction = new Vector3(2.5f * facing, -0.5f, 0);
@@ -248,5 +262,24 @@ public class NinjaController : MonoBehaviour {
 		jumpsAvailable = 0;
 		rigidbody.velocity = new Vector3(0, 0, 0);
 		rigidbody.useGravity = true;
+	}
+	
+	public void ResumeJump()
+	{
+		shootShurikenCount++;
+		
+		if(shootShurikenCount > 2)
+		{
+			shootShurikenCount = 0;
+			shooting = false;
+			
+			if(transform.rigidbody.velocity.x >= 0)
+				spriteRenderer.PlayAnimation("RunRight");
+			
+			else
+				spriteRenderer.PlayAnimation("RunLeft");
+			
+			spriteRenderer.RemoveActiveAnimationDelegate(ResumeJump);
+		}
 	}
 }
