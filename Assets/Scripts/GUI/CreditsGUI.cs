@@ -22,22 +22,22 @@ public class CreditsGUI : MonoBehaviour {
 		textStyle.normal.textColor = Color.black;
 		GUI.Label (new Rect(200, 150, 100, 50), "Alexandre Brault-Tremblay", textStyle);
 		textStyle.normal.textColor = new Color(0.2f, 0.2f, 0.2f, 1);
-		GUI.Label (new Rect(300, 230, 100, 50), "Programmeur", textStyle);
+		GUI.Label (new Rect(300, 230, 100, 50), "Programmer", textStyle);
 		
 		textStyle.normal.textColor = Color.black;
 		GUI.Label (new Rect(200, 340, 100, 50), "Frederick Imbeault", textStyle);
 		textStyle.normal.textColor = new Color(0.2f, 0.2f, 0.2f, 1);
-		GUI.Label (new Rect(300, 420, 100, 50), "Programmeur", textStyle);
+		GUI.Label (new Rect(300, 420, 100, 50), "Programmer", textStyle);
 		
 		textStyle.normal.textColor = Color.black;
 		GUI.Label (new Rect(200, 530, 100, 50), "Frederic Boucher", textStyle);
 		textStyle.normal.textColor = new Color(0.2f, 0.2f, 0.2f, 1);
-		GUI.Label (new Rect(300, 610, 100, 50), "Programmeur", textStyle);
+		GUI.Label (new Rect(300, 610, 100, 50), "Programmer", textStyle);
 		
 		textStyle.normal.textColor = Color.black;
 		GUI.Label (new Rect(200, 720, 100, 50), "Tommy Sirois", textStyle);
 		textStyle.normal.textColor = new Color(0.2f, 0.2f, 0.2f, 1);
-		GUI.Label (new Rect(300, 800, 100, 50), "Artiste", textStyle);
+		GUI.Label (new Rect(300, 800, 100, 50), "Artist", textStyle);
 	}
 	
 	void Update()
