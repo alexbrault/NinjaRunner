@@ -24,7 +24,7 @@ public class NinjaRenderer : MonoBehaviour {
 			sheet.Load("Sprites/Ninja#2Version2");
 		
 		else
-			sheet.Load("Sprites/Ninja#2Version2");
+			sheet.Load("Sprites/Ninja#0Version2");
 		
 		sheet.CreateAnimation("IdleRight", 200);
 		sheet.AddFrame("IdleRight", 0, 0, 128, 128);
