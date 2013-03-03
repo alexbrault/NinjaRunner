@@ -6,7 +6,7 @@ public class Spritesheet {
 	Texture2D spritesheet = null;
 	
 	Dictionary<string, SpriteAnimation> animations = new Dictionary<string, SpriteAnimation>();
-	SpriteAnimation activeAnimation = null;
+	public SpriteAnimation activeAnimation = null;
 	
 	public Spritesheet(GameObject o) {
 		gameObject = o;
