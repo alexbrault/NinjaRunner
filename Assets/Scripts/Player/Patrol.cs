@@ -28,7 +28,7 @@ public class Patrol : MonoBehaviour {
 	
 	void Update () {
 	
-		rigidbody.velocity = new Vector3(directionX, 0, 0) * WalkingSpeed * 10;
+		rigidbody.velocity = new Vector3(directionX, 0, 0) * WalkingSpeed;
 	}
 	
 	void OnCollisionEnter(Collision collision)
