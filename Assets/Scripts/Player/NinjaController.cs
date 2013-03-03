@@ -53,6 +53,8 @@ public class NinjaController : MonoBehaviour {
 	private bool onWall = false;
 	private bool canShoot = true;
 	
+	private NinjaRenderer spriteRenderer;
+	
 	private int nextWallJumpX = -1;
 	
 	void Awake()
@@ -66,6 +68,14 @@ public class NinjaController : MonoBehaviour {
 		Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"),LayerMask.NameToLayer("IgnorePlayerCollision"));
 		Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Weapons"),LayerMask.NameToLayer("IgnorePlayerCollision"));
 		Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Weapons"),LayerMask.NameToLayer("Weapons"));
+		
+		spriteRenderer = (NinjaRenderer)gameObject.GetComponent<NinjaRenderer>();
+		
+		if(Player == 0)
+			spriteRenderer.PlayAnimation("IdleRight");
+		
+		else
+			spriteRenderer.PlayAnimation("IdleLeft");
 	}
 	
 	public void AddListener(CollisionListener listener)
@@ -96,6 +106,8 @@ public class NinjaController : MonoBehaviour {
 	
 	void Run()
 	{
+		
+		
 		if(InputEx.GetButton(KeyNames[Player, KeyID.Left]))
 		{
 			rigidbody.AddForce(Vector3.left * RunAcceleration * ForceMod);
@@ -117,6 +129,21 @@ public class NinjaController : MonoBehaviour {
 			newVel.y = velY;
 			
 			rigidbody.velocity = newVel;
+		}
+		
+		if(rigidbody.velocity.x > 1)
+			spriteRenderer.PlayAnimation("RunRight");
+		
+		else if(rigidbody.velocity.x < -1)
+			spriteRenderer.PlayAnimation("RunLeft");
+		
+		else
+		{
+			if(Player == 0)
+				spriteRenderer.PlayAnimation("IdleRight");
+			
+			else
+				spriteRenderer.PlayAnimation("IdleLeft");
 		}
 	}
 	
