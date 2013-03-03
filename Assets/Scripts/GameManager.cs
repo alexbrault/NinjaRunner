@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour {
 		player2StartX = Player2.position.x;
 		
 		EndGameThreshold = 0.2f;
+		
+		SoundManager.Instance.PlaySound(SoundManager.soundEnum.BONG);
 	}
 	
 	// Update is called once per frame

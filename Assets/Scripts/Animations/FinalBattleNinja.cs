@@ -58,6 +58,7 @@ public class FinalBattleNinja : MonoBehaviour {
 			if(looser)
 			{				
 				transform.rotation = Quaternion.Euler(0, 90, 270);
+				transform.position = new Vector3(transform.position.x, transform.position.y - 4, transform.position.z);
 			}
 		}
 		
@@ -68,7 +69,11 @@ public class FinalBattleNinja : MonoBehaviour {
 			if(looser)
 			{
 				transform.rotation = Quaternion.Euler(0, 270, 90);
+				transform.position = new Vector3(transform.position.x, transform.position.y - 4, transform.position.z);
 			}
 		}
+		
+		GameObject blood = (GameObject)GameObject.Find("Blood");
+		blood.transform.position = new Vector3(blood.transform.position.x, transform.position.y, blood.transform.position.z);
 	}
 }

@@ -15,9 +15,7 @@ public class BeginsManager : MonoBehaviour {
 	
 	IEnumerator VS()
 	{
-		yield return new WaitForSeconds(2);
-		Debug.Log ("VS");
-		
+		yield return new WaitForSeconds(2);		
 		StartCoroutine(NextScene ());
 	}
 	

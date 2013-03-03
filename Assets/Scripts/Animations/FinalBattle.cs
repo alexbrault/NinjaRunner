@@ -120,6 +120,8 @@ public class FinalBattle : MonoBehaviour {
 	
 	IEnumerator Battle()
 	{
+		GameObject.Find("fond").renderer.enabled = true;
+		
 		player1.GetComponent<FinalBattleNinja>().UpdateBattleRender();
 		player2.GetComponent<FinalBattleNinja>().UpdateBattleRender();
 		
@@ -157,6 +159,7 @@ public class FinalBattle : MonoBehaviour {
 		//looser.transform.RotateAroundLocal(new Vector3(0, 0, -1), 90);
 		blood.GetComponent<ParticleSystem>().enableEmission = true;
 		
+		
 		yield return new WaitForSeconds(1.5f);
 		topText = "PLAYER " + ((int)winner.GetComponent<FinalBattleNinja>().player + 1);
 		yield return new WaitForSeconds(1.5f);
@@ -169,6 +172,7 @@ public class FinalBattle : MonoBehaviour {
 		textStyle.alignment = TextAnchor.MiddleCenter;
 		textStyle.fontSize = 64;
 		textStyle.font = textFont;
+		textStyle.normal.textColor = Color.red;
 		GUI.Label (new Rect(0, 10, Screen.width, 70), topText, textStyle);
 		GUI.Label (new Rect(0, Screen.height - 80, Screen.width, 70), bottomText, textStyle);
 	}

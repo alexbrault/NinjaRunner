@@ -5,7 +5,7 @@ using System.Collections.Generic;
 [RequireComponent(typeof(AudioSource))]
 public class SoundManager : MonoBehaviour {
 	public AudioClip[] audiClipSoundArray;
-	public enum soundEnum  {SHIRUKEN = 0, DRAW_SWORD, SWORD_FIGHT, FINAL_STR};
+	public enum soundEnum  {SHIRUKEN = 0, DRAW_SWORD, SWORD_FIGHT, FINAL_STR, BONG};
 	
 	private static SoundManager _instance;
 	public static SoundManager Instance 
