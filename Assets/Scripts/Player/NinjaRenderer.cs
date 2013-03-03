@@ -3,10 +3,24 @@ using System.Collections;
 
 public class NinjaRenderer : MonoBehaviour {
 	Spritesheet sheet;
+	
+	public enum Player
+	{
+		PLAYER_1,
+		PLAYER_2
+	}
+	
+	public Player player;
+	
 	// Use this for initialization
 	void Start () {
 		sheet = new Spritesheet(gameObject);
-		sheet.Load("Sprites/NinjaVersion2");
+		
+		if(player == Player.PLAYER_1)
+			sheet.Load("Sprites/NinjaVersion2");
+		
+		else
+			sheet.Load("Sprites/Ninja#2Version2");
 		
 		sheet.CreateAnimation("IdleRight", 200);
 		sheet.AddFrame("IdleRight", 0, 0, 128, 128);

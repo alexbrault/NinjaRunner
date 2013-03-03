@@ -21,7 +21,12 @@ public class Begins : MonoBehaviour {
 		startPos = transform.position;
 		
 		sheet = new Spritesheet(gameObject);
-		sheet.Load("Sprites/NinjaVersion2");
+		
+		if(player == Player.PLAYER_1)
+			sheet.Load("Sprites/NinjaVersion2");
+		
+		else
+			sheet.Load("Sprites/Ninja#2Version2");
 		
 		sheet.CreateAnimation("IdleRight", 200);
 		sheet.AddFrame("IdleRight", 0, 0, 128, 128);
