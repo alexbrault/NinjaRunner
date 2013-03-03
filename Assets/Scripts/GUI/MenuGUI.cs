@@ -29,9 +29,13 @@ public class MenuGUI : MonoBehaviour {
 	{
 		GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), MenuTexture);
 		
+		textStyle.normal.textColor = Color.gray;
 		GUI.Label (new Rect(400, 150, 100, 50), "Time Attack", textStyle);
+		textStyle.normal.textColor = Color.black;
 		GUI.Label (new Rect(400, 230, 100, 50), "Hotseat", textStyle);
+		textStyle.normal.textColor = Color.gray;
 		GUI.Label (new Rect(400, 310, 100, 50), "Network", textStyle);
+		textStyle.normal.textColor = Color.black;
 		GUI.Label (new Rect(400, 390, 100, 50), "Credits", textStyle);
 		
 		GUI.DrawTexture(cursorPositions[cursorPosIndex], CursorTexture);
