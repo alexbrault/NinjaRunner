@@ -24,7 +24,7 @@ public class GrapplingHook : MonoBehaviour {
 			ComputeGrappled();
 		}
 		
-		else if(InputEx.GetButton(NinjaController.KeyNames[player, NinjaController.KeyID.Grappling]))
+		else if(InputEx.GetButtonDown(NinjaController.KeyNames[player, NinjaController.KeyID.Grappling]))
 		{
 			if(gameObject.GetComponent<NinjaController>().IsJumping())
 			{
@@ -44,7 +44,7 @@ public class GrapplingHook : MonoBehaviour {
 	
 	void ComputeGrappled()
 	{
-		if(InputEx.GetButton(NinjaController.KeyNames[player, NinjaController.KeyID.Grappling]))
+		if(InputEx.GetButtonDown(NinjaController.KeyNames[player, NinjaController.KeyID.Grappling]))
 		{
 			Ungrapple();
 		}
