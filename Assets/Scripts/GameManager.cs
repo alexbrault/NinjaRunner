@@ -53,6 +53,28 @@ public class GameManager : MonoBehaviour {
 					battle.GetComponent<FinalBattle>().deltaScore = player2Score - player1Score;
 				}
 				
+				GameObject.DontDestroyOnLoad(Player1);
+				GameObject.DontDestroyOnLoad(Player2);
+				
+				Destroy(Player1.rigidbody);
+				Destroy(Player2.rigidbody);
+				Destroy(Player1.collider);
+				Destroy(Player2.collider);
+				Destroy(Player1.GetComponent<NinjaController>());
+				Destroy(Player2.GetComponent<NinjaController>());
+				
+				Player1.position = new Vector3(-5, 0, 0);
+				Player2.position = new Vector3(5, 0, 0);
+				
+				Player1.transform.parent = battle.transform;
+				Player2.transform.parent = battle.transform;
+				
+				battle.GetComponent<FinalBattle>().player1 = Player1.gameObject;
+				battle.GetComponent<FinalBattle>().player2 = Player2.gameObject;
+				
+				Player1.gameObject.AddComponent<FinalBattleNinja>();
+				Player2.gameObject.AddComponent<FinalBattleNinja>();
+				
 				Application.LoadLevel("FinalBattle");
 			}
 		}

@@ -68,6 +68,8 @@ public class FinalBattle : MonoBehaviour {
 	
 	IEnumerator Player1Dash()
 	{
+		yield return new WaitForSeconds(0.2f); // Like, HUGE bug fix important
+		
 		p1Dash.GetComponent<ParticleSystem>().enableEmission = true;
 		player2.renderer.enabled = false;
 		
@@ -121,7 +123,6 @@ public class FinalBattle : MonoBehaviour {
 		if(seconds > 5)
 			seconds = 5;
 		
-		seconds = 3;
 		Debug.Log (seconds);
 		
 		swordFight.renderer.enabled = true;

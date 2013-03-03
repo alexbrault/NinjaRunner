@@ -10,7 +10,7 @@ public class SegmentLoader : MonoBehaviour {
 	private System.Random random = new System.Random();
 	private float nextSegmentX = 0;
 	
-	public int numSegments = 5;
+	private const int numSegments = 1;
 	
 	private static SegmentLoader _instance;
 	public static SegmentLoader Instance {
