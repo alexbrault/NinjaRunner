@@ -135,7 +135,7 @@ public class NinjaController : MonoBehaviour {
 			GameObject throwed = (GameObject)GameObject.Instantiate(Shuriken, gameObject.transform.position, Quaternion.Euler(new Vector3(-90, 0, 0)));
 			Shuriken shuriken = throwed.GetComponent<Shuriken>();
 			shuriken.packet = new DamagePacket(1, Player);
-			throwed.rigidbody.AddForce(direction * 300);
+			throwed.rigidbody.AddForce(direction * 200);
 			
 			Physics.IgnoreCollision(gameObject.collider, throwed.collider, true);
 			yield return new WaitForSeconds(0.1f);
