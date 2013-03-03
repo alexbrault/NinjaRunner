@@ -58,6 +58,7 @@ public class SwordFight : MonoBehaviour {
 	
 	public void PlayKillAnimation()
 	{
+		AudioManager.Instance.PlaySound(AudioManager.soundEnum.FINAL_STR);		
 		sheet.SetCurrentAnimation("Kill");
 		sheet.activeAnimation.AnimationCompleted += KillCompleted;
 	}

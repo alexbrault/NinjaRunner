@@ -171,6 +171,8 @@ public class NinjaController : MonoBehaviour {
 		
 		Vector3 direction = new Vector3(2.5f * facing, -0.5f, 0);
 		
+		AudioManager.Instance.PlaySound(AudioManager.soundEnum.SHIRUKEN);
+		
 		for(int i = 0; i < 3; i++)
 		{
 			GameObject throwed = (GameObject)GameObject.Instantiate(Shuriken, gameObject.transform.position, Quaternion.Euler(new Vector3(-90, 0, 0)));
