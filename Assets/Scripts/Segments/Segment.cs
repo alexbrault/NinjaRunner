@@ -13,7 +13,7 @@ public class Segment : MonoBehaviour {
 		
 		var patrolPaths = GetComponentsInChildren<PatrolPath>();
 		foreach (var path in patrolPaths) {
-			var patroller = Instantiate(patrollers[0], path.transform.position, Quaternion.Euler(new Vector3(-90, 0, 0))) as Transform;
+			var patroller = Instantiate(patrollers[0], path.transform.position, Quaternion.Euler(new Vector3(90, 180, 0))) as Transform;
 			patroller.GetComponent<Patrol>().StartPatrol(path.transform);
 		}
 		
