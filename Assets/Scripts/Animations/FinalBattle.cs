@@ -10,6 +10,7 @@ public class FinalBattle : MonoBehaviour {
 	public float maxDeltaScore;
 	public float deltaScore;
 	public Font textFont;
+	private GUIStyle textStyle = new GUIStyle();
 	
 	private GameObject p1Dash;
 	private GameObject p2Dash;
@@ -160,10 +161,11 @@ public class FinalBattle : MonoBehaviour {
 		topText = "PLAYER " + ((int)winner.GetComponent<FinalBattleNinja>().player + 1);
 		yield return new WaitForSeconds(1.5f);
 		bottomText = "WINS";
+		yield return new WaitForSeconds(0.75f);
+		gameObject.AddComponent<ReturnToMenu>().style = textStyle;
 	}
 	
 	private void OnGUI() {
-		GUIStyle textStyle = new GUIStyle();
 		textStyle.alignment = TextAnchor.MiddleCenter;
 		textStyle.fontSize = 64;
 		textStyle.font = textFont;
