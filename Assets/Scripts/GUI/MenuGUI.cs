@@ -61,7 +61,7 @@ public class MenuGUI : MonoBehaviour {
 				break;
 				
 			case 1:
-				Application.LoadLevel("Hotseat");
+				Application.LoadLevel("Begins");
 				break;
 				
 			case 2:

@@ -24,6 +24,6 @@ public class BeginsManager : MonoBehaviour {
 	IEnumerator NextScene()
 	{
 		yield return new WaitForSeconds(3);
-		Debug.Log ("Next Scene");
+		Application.LoadLevel("Hotseat");
 	}
 }
