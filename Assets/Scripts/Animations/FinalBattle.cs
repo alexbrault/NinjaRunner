@@ -142,8 +142,8 @@ public class FinalBattle : MonoBehaviour {
 		swordFight.renderer.enabled = true;
 		yield return new WaitForSeconds(seconds);
 		
-		player1.GetComponent<FinalBattleNinja>().UpdateFinalRender();
-		player2.GetComponent<FinalBattleNinja>().UpdateFinalRender();
+		player1.GetComponent<FinalBattleNinja>().UpdateFinalRender(player1 == looser);
+		player2.GetComponent<FinalBattleNinja>().UpdateFinalRender(player2 == looser);
 		
 		p1Dash.GetComponent<ParticleSystem>().enableEmission = false;
 		p2Dash.GetComponent<ParticleSystem>().enableEmission = false;

@@ -18,13 +18,13 @@ public class FinalBattleNinja : MonoBehaviour {
 		
 		if(player == Player.PLAYER_1)
 		{
-			spriteRenderer.PlayAnimation("IdleRight");
+			spriteRenderer.PlayAnimation("DashRight");
 			transform.RotateAroundLocal(new Vector3(0,0,-1), 45);
 		}
 		
 		else
 		{
-			spriteRenderer.PlayAnimation("IdleLeft");
+			spriteRenderer.PlayAnimation("DashLeft");
 			transform.RotateAroundLocal(new Vector3(0,0,-1), -45);
 		}
 	}
@@ -38,29 +38,37 @@ public class FinalBattleNinja : MonoBehaviour {
 	{
 		if(player == Player.PLAYER_1)
 		{
-			spriteRenderer.PlayAnimation("IdleRight");
+			spriteRenderer.PlayAnimation("BattleRight");
 			transform.RotateAroundLocal(new Vector3(0,0,-1), -45);
 		}
 		
 		else
 		{
-			spriteRenderer.PlayAnimation("IdleLeft");
+			spriteRenderer.PlayAnimation("BattleLeft");
 			transform.RotateAroundLocal(new Vector3(0,0,-1), 45);
 		}
 	}
 	
-	public void UpdateFinalRender()
+	public void UpdateFinalRender(bool looser)
 	{
 		if(player == Player.PLAYER_1)
 		{
 			spriteRenderer.PlayAnimation("IdleRight");
-			transform.RotateAroundLocal(new Vector3(0,0,-1), -45);
+			
+			if(looser)
+			{				
+				transform.RotateAroundLocal(new Vector3(0,0,-1), 45);
+			}
 		}
 		
-		else
+		if(player == Player.PLAYER_2)
 		{
 			spriteRenderer.PlayAnimation("IdleLeft");
-			transform.RotateAroundLocal(new Vector3(0,0,-1), 45);
+			
+			if(looser)
+			{
+				transform.RotateAroundLocal(new Vector3(0,0,-1), -45);
+			}
 		}
 	}
 }

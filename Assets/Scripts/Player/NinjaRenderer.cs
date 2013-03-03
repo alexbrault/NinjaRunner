@@ -90,35 +90,35 @@ public class NinjaRenderer : MonoBehaviour {
 		
 		
 		
-		sheet.CreateAnimation("BattleRight", 200);
+		sheet.CreateAnimation("BattleRight", 30);
 		sheet.AddFrame("BattleRight", 1024, 0, 128, 128);
 		sheet.AddFrame("BattleRight", 1024, 128, 128, 128);
 		sheet.AddFrame("BattleRight", 1024, 256, 128, 128);
 		sheet.AddFrame("BattleRight", 1024, 384, 128, 128);
 		sheet.AddFrame("BattleRight", 1024, 512, 128, 128);
 		
-		sheet.CreateAnimation("BattleLeft", 200);
-		sheet.AddFrame("BattleLeft", 1280, 0, 128, 128);
-		sheet.AddFrame("BattleLeft", 1280, 128, 128, 128);
-		sheet.AddFrame("BattleLeft", 1280, 256, 128, 128);
-		sheet.AddFrame("BattleLeft", 1280, 384, 128, 128);
-		sheet.AddFrame("BattleLeft", 1280, 512, 128, 128);
+		sheet.CreateAnimation("BattleLeft", 30);
+		sheet.AddFrame("BattleLeft", 1152, 0, 128, 128);
+		sheet.AddFrame("BattleLeft", 1152, 128, 128, 128);
+		sheet.AddFrame("BattleLeft", 1152, 256, 128, 128);
+		sheet.AddFrame("BattleLeft", 1152, 384, 128, 128);
+		sheet.AddFrame("BattleLeft", 1152, 512, 128, 128);
 		
 		
 		
 		sheet.CreateAnimation("DashRight", 200);
-		sheet.AddFrame("DashRight", 1408, 0, 128, 128);
-		sheet.AddFrame("DashRight", 1408, 128, 128, 128);
-		sheet.AddFrame("DashRight", 1408, 256, 128, 128);
-		sheet.AddFrame("DashRight", 1408, 384, 128, 128);
-		sheet.AddFrame("DashRight", 1408, 512, 128, 128);
+		sheet.AddFrame("DashRight", 1280, 0, 128, 128);
+		sheet.AddFrame("DashRight", 1280, 128, 128, 128);
+		sheet.AddFrame("DashRight", 1280, 256, 128, 128);
+		sheet.AddFrame("DashRight", 1280, 384, 128, 128);
+		sheet.AddFrame("DashRight", 1280, 512, 128, 128);
 		
 		sheet.CreateAnimation("DashLeft", 200);
-		sheet.AddFrame("DashLeft", 1536, 0, 128, 128);
-		sheet.AddFrame("DashLeft", 1536, 128, 128, 128);
-		sheet.AddFrame("DashLeft", 1536, 256, 128, 128);
-		sheet.AddFrame("DashLeft", 1536, 384, 128, 128);
-		sheet.AddFrame("DashLeft", 1536, 512, 128, 128);
+		sheet.AddFrame("DashLeft", 1408, 0, 128, 128);
+		sheet.AddFrame("DashLeft", 1408, 128, 128, 128);
+		sheet.AddFrame("DashLeft", 1408, 256, 128, 128);
+		sheet.AddFrame("DashLeft", 1408, 384, 128, 128);
+		sheet.AddFrame("DashLeft", 1408, 512, 128, 128);
 	}
 	
 	// Update is called once per frame

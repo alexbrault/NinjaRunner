@@ -59,8 +59,6 @@ public class GameManager : MonoBehaviour {
 				
 				Destroy(Player1.rigidbody);
 				Destroy(Player2.rigidbody);
-				Destroy(Player1.collider);
-				Destroy(Player2.collider);
 				Destroy(Player1.GetComponent<NinjaController>());
 				Destroy(Player2.GetComponent<NinjaController>());
 				
