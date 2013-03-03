@@ -58,11 +58,17 @@ public class GameManager : MonoBehaviour {
 				
 				GameObject.DontDestroyOnLoad(Player1);
 				GameObject.DontDestroyOnLoad(Player2);
+								
+				(Player1.rigidbody).useGravity = 
+				(Player2.rigidbody).useGravity = 
+				(Player1.collider).enabled = 
+				(Player2.collider).enabled = 
+				(Player1.GetComponent<NinjaController>()).enabled = 
+				(Player2.GetComponent<NinjaController>()).enabled = 
+						false;
 				
-				Destroy(Player1.rigidbody);
-				Destroy(Player2.rigidbody);
-				Destroy(Player1.GetComponent<NinjaController>());
-				Destroy(Player2.GetComponent<NinjaController>());
+				Player1.rigidbody.velocity = Vector3.zero;
+				Player2.rigidbody.velocity = Vector3.zero;
 				
 				Player1.position = new Vector3(-5, 0, 0);
 				Player2.position = new Vector3(5, 0, 0);
