@@ -8,6 +8,8 @@ public class NinjaController : MonoBehaviour {
 	public float RunAcceleration;
 	public int MaxSpeed;
 	public NetworkPlayer netPlayer;
+	
+	public const int ForceMod = 10;
 		
 	public enum PlayerID : int {
 		Player1 = 0,
@@ -42,7 +44,7 @@ public class NinjaController : MonoBehaviour {
 	private int facing = 1;
 	public GameObject Shuriken;
 	
-	private int jumpsAvailable = 2;
+	private int jumpsAvailable = 1;
 	private bool canMove = true;
 	private bool onWall = false;
 	private bool canShoot = true;
@@ -75,52 +77,51 @@ public class NinjaController : MonoBehaviour {
 	
 	public bool IsJumping()
 	{
-		return jumpsAvailable < 2;
+		return jumpsAvailable < 1;
 	}
 	
 	void Run()
 	{
 		if(InputEx.GetButton(KeyNames[Player, KeyID.Left]))
 		{
-			gameObject.rigidbody.AddForce(Vector3.left * RunAcceleration * 100);
+			rigidbody.AddForce(Vector3.left * RunAcceleration * ForceMod);
 			facing = -1;
 		}
 		
 		else if (InputEx.GetButton(KeyNames[Player, KeyID.Right]))
 		{
-			gameObject.rigidbody.AddForce(Vector3.right * RunAcceleration * 100);
+			rigidbody.AddForce(Vector3.right * RunAcceleration * ForceMod);
 			facing = +1;
 		}
 		
-		if(Mathf.Abs(gameObject.rigidbody.velocity.x) > MaxSpeed)
+		if(Mathf.Abs(rigidbody.velocity.x) > MaxSpeed)
 		{
 			Vector3 newVel = new Vector3(0, 0, 0);
-			float velY = gameObject.rigidbody.velocity.y;
+			float velY = rigidbody.velocity.y;
 			
-			newVel = gameObject.rigidbody.velocity.normalized * MaxSpeed;
+			newVel = rigidbody.velocity.normalized * MaxSpeed;
 			newVel.y = velY;
 			
-			gameObject.rigidbody.velocity = newVel;
+			rigidbody.velocity = newVel;
 		}
 	}
 	
 	void Jump()
 	{
-		float varX = 
-			  (InputEx.GetButton(KeyNames[Player, KeyID.Left]) ? -1 : 0)
-			+ (InputEx.GetButton(KeyNames[Player, KeyID.Right]) ? 1 : 0);
-		gameObject.rigidbody.AddForce(new Vector3(varX, 1, 0) * JumpForce * 25 );
+		rigidbody.AddForce(Vector3.up * JumpForce * ForceMod );
 		canMove = true;
 		jumpsAvailable--;
 	}
 	
 	void WallJump()
 	{
-		gameObject.rigidbody.AddForce(new Vector3(nextWallJumpX, 1, 0) * WallJumpForce * 10);
-		jumpsAvailable = 1;
+		StopCoroutine("FallOffWall");
+		rigidbody.AddForce(new Vector3(nextWallJumpX, 1, 0) * WallJumpForce * ForceMod);
+		jumpsAvailable = 0;
 		facing = -facing;
 		canMove = false;
 		onWall = false;
+		rigidbody.useGravity = true;
 	}
 	
 	IEnumerator ShootShurikens()
@@ -134,7 +135,7 @@ public class NinjaController : MonoBehaviour {
 			GameObject throwed = (GameObject)GameObject.Instantiate(Shuriken, gameObject.transform.position, Quaternion.Euler(new Vector3(-90, 0, 0)));
 			Shuriken shuriken = throwed.GetComponent<Shuriken>();
 			shuriken.packet = new DamagePacket(1, Player);
-			throwed.rigidbody.AddForce(direction * 100);
+			throwed.rigidbody.AddForce(direction * 300);
 			
 			Physics.IgnoreCollision(gameObject.collider, throwed.collider, true);
 			yield return new WaitForSeconds(0.1f);
@@ -155,16 +156,16 @@ public class NinjaController : MonoBehaviour {
 
 		if(contact.gameObject.tag == "Floor")
 		{
-			jumpsAvailable = 2;
+			jumpsAvailable = 1;
 			canMove = true;
 		}
 		
-		if(contact.gameObject.tag == "Wall" && jumpsAvailable != 2)
+		if(contact.gameObject.tag == "Wall" && jumpsAvailable != 1)
 		{
 			canMove = false;
 			onWall = true;
-			gameObject.rigidbody.velocity = new Vector3(0, 0, 0);
-			gameObject.rigidbody.useGravity = false;
+			rigidbody.velocity = new Vector3(0, 0, 0);
+			rigidbody.useGravity = false;
 			
 			if(contact.gameObject.transform.position.x - gameObject.transform.position.x > 0)
 				nextWallJumpX = -1;
@@ -183,7 +184,7 @@ public class NinjaController : MonoBehaviour {
 	IEnumerator FallOffWall()
 	{
 	    yield return new WaitForSeconds(2);
-		gameObject.rigidbody.useGravity = true;
+		rigidbody.useGravity = true;
 		onWall = false;
 	}
 	
@@ -195,7 +196,7 @@ public class NinjaController : MonoBehaviour {
 		transform.position = currentSegment.SafeSpawn.position;
 		canMove = false;
 		jumpsAvailable = 0;
-		gameObject.rigidbody.velocity = new Vector3(0, 0, 0);
-		gameObject.rigidbody.useGravity = true;
+		rigidbody.velocity = new Vector3(0, 0, 0);
+		rigidbody.useGravity = true;
 	}
 }
