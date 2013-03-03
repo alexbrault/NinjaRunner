@@ -183,7 +183,7 @@ public class NinjaController : MonoBehaviour {
 	{
 		shooting = true;
 		
-		if(transform.rigidbody.velocity.x >= 0)
+		if(facing >= 0)
 			spriteRenderer.PlayAnimation("ThrowShurikenRight");
 		
 		else
@@ -241,7 +241,6 @@ public class NinjaController : MonoBehaviour {
 			{
 				spriteRenderer.PlayAnimation("OnWallLeft");
 			}
-			
 			else
 			{
 				spriteRenderer.PlayAnimation("OnWallRight");
