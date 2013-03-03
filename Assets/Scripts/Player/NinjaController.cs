@@ -171,7 +171,7 @@ public class NinjaController : MonoBehaviour {
 		
 		Vector3 direction = new Vector3(2.5f * facing, -0.5f, 0);
 		
-		AudioManager.Instance.PlaySound(AudioManager.soundEnum.SHIRUKEN);
+		SoundManager.Instance.PlaySound(SoundManager.soundEnum.SHIRUKEN);
 		
 		for(int i = 0; i < 3; i++)
 		{
