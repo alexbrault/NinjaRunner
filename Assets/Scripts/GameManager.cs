@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour {
 				battle.GetComponent<FinalBattle>().player2 = Player2.gameObject;
 				
 				Player1.gameObject.AddComponent<FinalBattleNinja>();
-				Player2.gameObject.AddComponent<FinalBattleNinja>();
+				Player2.gameObject.AddComponent<FinalBattleNinja>().player = FinalBattleNinja.Player.PLAYER_2;
 				
 				Application.LoadLevel("FinalBattle");
 			}
