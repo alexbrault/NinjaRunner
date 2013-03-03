@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class NinjaController : MonoBehaviour {
 	
@@ -10,6 +11,8 @@ public class NinjaController : MonoBehaviour {
 	public NetworkPlayer netPlayer;
 	
 	public const int ForceMod = 10;
+	
+	private List<CollisionListener> listeners;
 		
 	public enum PlayerID : int {
 		Player1 = 0,
@@ -52,12 +55,22 @@ public class NinjaController : MonoBehaviour {
 	
 	private int nextWallJumpX = -1;
 	
+	void Awake()
+	{
+		listeners = new List<CollisionListener>();
+	}
+	
 	// Use this for initialization
 	void Start () {
 		Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"),LayerMask.NameToLayer("Player"));
 		Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"),LayerMask.NameToLayer("IgnorePlayerCollision"));
 		Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Weapons"),LayerMask.NameToLayer("IgnorePlayerCollision"));
 		Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Weapons"),LayerMask.NameToLayer("Weapons"));
+	}
+	
+	public void AddListener(CollisionListener listener)
+	{
+		listeners.Add (listener);
 	}
 	
 	// Update is called once per frame
@@ -153,6 +166,11 @@ public class NinjaController : MonoBehaviour {
 	
 	void OnCollisionEnter(Collision collision)
 	{
+		foreach(CollisionListener listener in listeners)
+		{
+			listener.Notify(gameObject.collider, collision.collider);
+		}
+		
 		Collider contact = collision.collider;
 
 		if(contact.gameObject.tag == "Floor")
