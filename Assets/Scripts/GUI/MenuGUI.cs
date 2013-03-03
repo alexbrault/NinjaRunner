@@ -68,6 +68,7 @@ public class MenuGUI : MonoBehaviour {
 				break;
 				
 			case 3:
+				Application.LoadLevel("Credits");
 				break;
 			}
 		}
